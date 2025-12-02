@@ -40,10 +40,11 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// --- ÖZEL REHBER İÇERİKLERİ (KAPAKLAR ONLINE, İÇERİK YEREL) ---
+// --- ÖZEL REHBER İÇERİKLERİ (GÜNCELLENMİŞ VE ZENGİNLEŞTİRİLMİŞ) ---
 const REHBERLER = {
     'vizesiz-ulkeler': {
         title: "Pasaportu Kap Gel: Vizesiz Gidilebilen En Popüler 5 Ülke",
+        // Kapak Resmi: Unsplash
         image: "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?auto=format&fit=crop&w=1200&q=80",
         content: `
             <p class="guide-intro">Vize evraklarıyla uğraşmak, banka hesapları dökmek yok! Sadece uçak biletini alıp, pasaportunu (bazıları için sadece kimliğini) cebine koyup gidebileceğin en güzel rotaları senin için derledik.</p>
@@ -71,6 +72,7 @@ const REHBERLER = {
     },
     'kamp-rotalari': {
         title: "Yıldızların Altında: Türkiye'nin En İyi Kamp Rotaları",
+        // Kapak Resmi: Unsplash
         image: "https://images.unsplash.com/photo-1523987355523-c7b5b0dd90a7?auto=format&fit=crop&w=1200&q=80",
         content: `
             <p class="guide-intro">Şehirden kaçıp doğaya sığınmak isteyenler için Türkiye bir cennet. İşte çadırınızı kurup huzuru bulabileceğiniz en iyi lokasyonlar.</p>
@@ -87,6 +89,7 @@ const REHBERLER = {
     },
     'dunya-mutfagi': {
         title: "Lezzet Turu: Ölmeden Önce Denemeniz Gereken 5 Tat",
+        // Kapak Resmi: Unsplash
         image: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80",
         content: `
             <p class="guide-intro">Seyahat etmenin yarısı görmekse, diğer yarısı tatmaktır. İşte dünya mutfağının ikonik lezzetleri.</p>
@@ -103,26 +106,49 @@ const REHBERLER = {
     },
     'ucuz-ucak': {
         title: "Uçak Biletine Servet Ödemeyin: 5 Altın Kural",
+        // Kapak Resmi: Unsplash
         image: "https://images.unsplash.com/photo-1559297434-fae8a1916a79?auto=format&fit=crop&w=1200&q=80",
         content: `
-            <h3>1. Gizli Sekme Dostunuzdur 🕵️‍♂️</h3>
-            <p>Havayolu siteleri çerezlerinizi izler. Aynı bilete defalarca bakarsanız fiyat artar. Her zaman "Gizli Sekme"den arama yapın.</p>
-            <h3>2. Salı ve Çarşamba Uçun 📅</h3>
-            <p>İstatistiklere göre haftanın en ucuz uçuşları genellikle hafta ortasında gerçekleşir. Cuma ve Pazar en pahalı günlerdir.</p>
+            <p class="guide-intro">Uçak biletleri seyahat bütçesinin en büyük kalemi olabilir. Ancak havayolu şirketlerinin algoritmalarını yenmek mümkün. İşte 5 hayat kurtaran taktik:</p>
+
+            <h3>1. Gizli Sekme (Incognito) Dostunuzdur 🕵️‍♂️</h3>
+            <p>Havayolu siteleri ve arama motorları çerezlerinizi (cookies) izler. Aynı bilete defalarca bakarsanız, sistem sizin o bileti almaya çok istekli olduğunuzu anlar ve fiyatı yapay olarak artırır. Her zaman "Gizli Sekme"den arama yapın.</p>
+            
+            <h3>2. Salı ve Çarşamba Kuralı 📅</h3>
+            <p>İstatistiklere göre haftanın en ucuz uçuşları genellikle hafta ortasında gerçekleşir. İnsanların çoğu Cuma gidiş, Pazar dönüş baktığı için en pahalı günler bunlardır. Uçuşunuzu Salı veya Çarşamba gününe kaydırırsanız %20'ye varan tasarruf edebilirsiniz.</p>
             <img src="/img/havalimani.jpg" alt="Havalimanı">
-            <h3>3. "Her Yere" Arama Yapın 🌍</h3>
-            <p>Skyscanner gibi sitelerde varış noktasını "Her Yere" seçerek o tarihteki en ucuz ülkeyi bulabilir, sürpriz rotalar keşfedebilirsiniz.</p>
+
+            <h3>3. "Her Yere" (Everywhere) Arama Özelliği 🌍</h3>
+            <p>Skyscanner gibi sitelerde varış noktasını boş bırakıp veya "Her Yere" seçerek arama yapın. Böylece o tarihteki en ucuz ülkeyi bulabilir, hiç aklınızda olmayan sürpriz ve ucuz rotalar keşfedebilirsiniz.</p>
+
+            <h3>4. Fiyat Alarmları Kurun 🔔</h3>
+            <p>Gitmek istediğiniz yer ve tarih belliyse, Google Flights veya Skyscanner üzerinden "Fiyat Takibi"ni açın. Bilet fiyatı düştüğünde anında mail alırsınız. Genellikle uçuşa 3-4 hafta kala fiyatlar en uygun seviyeye gelir.</p>
+
+            <h3>5. Alternatif Havalimanları ve Aktarmalar ✈️</h3>
+            <p>Ana havalimanları her zaman daha pahalıdır (Örn: Londra Heathrow yerine Stansted veya Gatwick). Ayrıca direkt uçuş yerine kendi aktarmanızı kendiniz yaparak (iki ayrı bilet alarak) çok daha ucuza seyahat edebilirsiniz.</p>
         `
     },
     'interrail': {
         title: "Sırt Çantanı Hazırla: Interrail Başlangıç Rehberi",
-        image: "https://images.unsplash.com/photo-1515165592879-1849b8896089?auto=format&fit=crop&w=1200&q=80",
+        // Kapak Resmi: Unsplash (Yeni link eklendi)
+        image: "https://images.unsplash.com/photo-1542144612-1b3641ec3459?auto=format&fit=crop&w=1200&q=80",
         content: `
             <h3>Tek Biletle Tüm Avrupa</h3>
-            <p>Interrail, tek bir tren biletiyle Avrupa'nın 33 ülkesini gezmenizi sağlayan efsanevi bir sistemdir. Otel masrafından kurtulmak için gece trenlerini kullanabilirsiniz.</p>
+            <p>Interrail, tek bir tren biletiyle Avrupa'nın 33 ülkesini (sınır geçişleri dahil) özgürce gezmenizi sağlayan efsanevi bir sistemdir. İster 5 gün, ister 3 ay; rota tamamen sizin hayal gücünüze kalmış.</p>
             <img src="/img/tren.jpg" alt="Avrupa Tren">
-            <h3>Rotanızı Önceden Çizin 🗺️</h3>
-            <p>Her ne kadar spontane gezmek güzel olsa da, popüler hatlarda (Örn: Paris-Amsterdam) yer bulmak zor olabilir. Rezervasyon şartlarını kontrol edin.</p>
+            
+            <h3>1. Global Pass mi, One Country Pass mi? 🎫</h3>
+            <p><strong>Global Pass:</strong> Tüm Avrupa'da geçerlidir. En popüler seçenektir. "5 gün içinde 1 ay geçerli" gibi esnek seçenekleri vardır.<br>
+            <strong>One Country Pass:</strong> Sadece tek bir ülkeyi (Örneğin sadece İtalya'yı) gezmek istiyorsanız daha ekonomiktir.</p>
+
+            <h3>2. Rezervasyon Ücretlerine Dikkat! ⚠️</h3>
+            <p>Interrail bileti aldınız diye her trene elinizi kolunuzu sallayarak binemezsiniz. Özellikle hızlı trenler (TGV, Eurostar) ve gece trenleri için ek "Rezervasyon Ücreti" ödemeniz gerekir. Bu ücretler 10€ ile 30€ arasında değişebilir.</p>
+
+            <h3>3. Rail Planner Uygulaması 📱</h3>
+            <p>Bu uygulama hayat kurtarır. Hangi trenin rezervasyon istediğini, tren saatlerini ve aktarmaları internet olmadan da görebilirsiniz. Gezinizi planlarken mutlaka indirin.</p>
+
+            <h3>4. Konaklama İpucu: Gece Trenleri 🌙</h3>
+            <p>Zaman ve bütçe tasarrufu için uzun mesafeleri gece trenleriyle gidin. Hem otel parası vermezsiniz hem de sabah gözünüzü yeni bir ülkede açarsınız.</p>
         `
     }
 };
