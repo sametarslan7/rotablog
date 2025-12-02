@@ -236,7 +236,7 @@ app.get('/rehber/:page', (req, res) => {
 app.get('/sayfa/:page', (req, res) => {
     const pageName = req.params.page; 
     res.render('page', { 
-        title: pageName.toUpperCase() + " | TravelLog", 
+        title: pageName.toUpperCase() + " | RotaBlog", 
         page: pageName,
         searchQuery: '',
         activeCategory: '',
