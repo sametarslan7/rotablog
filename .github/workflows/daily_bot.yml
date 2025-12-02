@@ -1,0 +1,33 @@
+name: Günlük Blog Yazarı
+
+on:
+  schedule:
+    # UTC saatine göre çalışır. Türkiye UTC+3 olduğu için
+    # Buraya yazdığın saatten 3 saat sonra çalışır.
+    # Örnek: '0 7 * * *' -> Sabah 07:00 UTC = Türkiye saatiyle 10:00
+    - cron: '0 7 * * *' 
+  workflow_dispatch: # Bu satır, "Şimdi Çalıştır" butonu ekler (Test için)
+
+jobs:
+  write-blog:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Kodları Çek (Checkout)
+        uses: actions/checkout@v3
+
+      - name: Python Kurulumu
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Kütüphaneleri Yükle
+        run: |
+          pip install -r requirements.txt
+
+      - name: Botu Çalıştır
+        env:
+          # GitHub Ayarlarından çekeceğimiz şifreler
+          MONGO_URI: ${{ secrets.MONGO_URI }}
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: python python_bot/ai_writer.py
