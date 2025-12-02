@@ -1,0 +1,125 @@
+<%- include('partials/header') %>
+
+<main class="container">
+
+    <!-- SLIDER (Aynı kalıyor) -->
+    <% if (!searchQuery && !activeCategory && currentPage === 1) { %>
+    <section class="featured-slider">
+        <h2 class="section-title">Öne Çıkan Rotalar</h2>
+        <div class="slider-track">
+            <% featured.forEach(blog => { %>
+                <div class="slide-item">
+                    <img src="<%= blog.image %>" alt="<%= blog.title %>">
+                    <div class="slide-caption">
+                        <h3><%= blog.title %></h3>
+                        <a href="/blog/<%= blog.slug %>" class="btn-slide">Keşfet</a>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </section>
+    <% } %>
+
+    <!-- AdSense -->
+    <div class="adsense-banner">
+        <p>Google Reklam Alanı</p>
+    </div>
+
+    <!-- ANA İÇERİK -->
+    <div class="content-wrapper">
+        
+        <!-- SOL SÜTUN (Aynı kalıyor) -->
+        <div class="main-column">
+            <h2 class="section-title">
+                <%= activeCategory ? activeCategory : 'Son Eklenen Gezi Rehberleri' %>
+                <% if(searchQuery) { %> (Arama Sonucu: <%= searchQuery %>) <% } %>
+            </h2>
+            
+            <div class="blog-grid">
+                <% if(blogs.length > 0) { %>
+                    <% blogs.forEach(blog => { %>
+                        <article class="blog-card">
+                            <div class="card-img">
+                                <img src="<%= blog.image %>" alt="<%= blog.title %>">
+                                <span class="category-badge"><%= blog.category %></span>
+                            </div>
+                            <div class="card-body">
+                                <h3><%= blog.title %></h3>
+                                <p><%= blog.summary ? blog.summary.replace(/<[^>]*>?/gm, '').substring(0, 120) + '...' : '' %></p>
+                                <div class="card-footer">
+                                    <a href="/blog/<%= blog.slug %>" class="read-more-btn">Okumaya Devam Et &rarr;</a>
+                                </div>
+                            </div>
+                        </article>
+                    <% }) %>
+                <% } else { %>
+                    <div style="padding: 40px; text-align: center; width: 100%; background: #fff; border-radius: 8px;">
+                        <h3>😔 Sonuç Bulunamadı</h3>
+                        <p>Aradığınız kriterlere uygun yazı henüz eklenmemiş.</p>
+                        <a href="/" style="color: #059669; font-weight: bold;">Ana Sayfaya Dön</a>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Sayfalama (Aynı kalıyor) -->
+            <% if (totalPages > 1) { %>
+            <div class="pagination">
+                <% if (currentPage > 1) { %>
+                    <a href="/?page=<%= currentPage - 1 %><%= activeCategory ? '&category='+activeCategory : '' %><%= searchQuery ? '&search='+searchQuery : '' %>" class="page-link prev">&laquo; Önceki</a>
+                <% } %>
+                <% for(let i = 1; i <= totalPages; i++) { %>
+                    <a href="/?page=<%= i %><%= activeCategory ? '&category='+activeCategory : '' %><%= searchQuery ? '&search='+searchQuery : '' %>" class="page-link <%= currentPage === i ? 'active' : '' %>"><%= i %></a>
+                <% } %>
+                <% if (currentPage < totalPages) { %>
+                    <a href="/?page=<%= currentPage + 1 %><%= activeCategory ? '&category='+activeCategory : '' %><%= searchQuery ? '&search='+searchQuery : '' %>" class="page-link next">Sonraki &raquo;</a>
+                <% } %>
+            </div>
+            <% } %>
+        </div>
+
+        <!-- SAĞ SÜTUN: Sidebar (SADELEŞTİRİLDİ) -->
+        <aside class="sidebar">
+            
+            <!-- ÖZEL REHBERLER KISMI -->
+            <div class="widget">
+                <h3 style="color: #d97706;">🎒 Gezginin Çantası</h3>
+                <ul class="widget-list">
+                    <li><a href="/rehber/vizesiz-ulkeler">🌍 Vizesiz Gidilen Ülkeler Listesi</a></li>
+                    <li><a href="/rehber/kamp-rotalari">⛺ Türkiye'nin En İyi Kamp Alanları</a></li>
+                    <li><a href="/rehber/dunya-mutfagi">🍽️ Dünya Mutfağından 10 Lezzet</a></li>
+                    <li><a href="/rehber/ucuz-ucak">✈️ Ucuz Uçak Bileti Bulma Taktikleri</a></li>
+                    <li><a href="/rehber/interrail">🚂 Interrail Başlangıç Rehberi</a></li>
+                </ul>
+            </div>
+
+            <!-- Hakkımızda -->
+            <div class="widget">
+                <h3>TravelLog Hakkında</h3>
+                <p style="font-size: 14px;">Biz, dünyayı keşfetmek isteyenler için yapay zeka destekli, güncel ve detaylı gezi rehberleri hazırlayan dijital bir seyahat günlüğüyüz.</p>
+            </div>
+
+            <!-- Etiketler -->
+            <div class="widget">
+                <h3>Popüler Etiketler</h3>
+                <div class="tag-cloud">
+                    <% if (typeof tags !== 'undefined' && tags.length > 0) { %>
+                        <% tags.forEach(tag => { %>
+                            <a href="/?search=<%= tag %>">#<%= tag %></a>
+                        <% }) %>
+                    <% } else { %>
+                        <p style="font-size:12px; color:#999;">Henüz etiket yok.</p>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Reklam -->
+            <div class="widget ad-widget">
+                <div class="adsense-box-small">Sponsorlu Alan</div>
+            </div>
+
+        </aside>
+
+    </div> 
+</main>
+
+<%- include('partials/footer') %>

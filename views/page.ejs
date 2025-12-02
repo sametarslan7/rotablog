@@ -1,0 +1,86 @@
+<%- include('partials/header') %>
+
+<main class="container">
+
+    <!-- HAKKIMDA SAYFASI (SEYAHAT KONSEPTİ) -->
+    <% if (page === 'hakkimda') { %>
+        <section class="static-page-wrapper about-wrapper">
+            
+            <!-- Üst Kısım: Profil ve Başlık -->
+            <div class="about-hero">
+                <div class="profile-frame">
+                    <!-- Seyahat temalı rastgele bir görsel (Pusula/Harita vb.) -->
+                    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&q=80" alt="TravelLog" class="about-img">
+                </div>
+                <h1>Dünyayı Bizimle Keşfedin</h1>
+                <p class="tagline">Macera • Kültür • Özgürlük</p>
+            </div>
+
+            <!-- Orta Kısım: Hikaye -->
+            <div class="about-content">
+                <p>
+                    Merhaba! <strong>TravelLog</strong>'a hoş geldiniz. Burası sadece turistik yerlerin listelendiği sıradan bir rehber değil; yola çıkma tutkusunu ateşleyen, farklı kültürlere dokunmanızı sağlayan bir ilham kaynağıdır.
+                </p>
+                <p>
+                    Sırt çantanızı alıp plansızca çıkılan yollardan, lüks ve konforlu tatil rotalarına kadar her türlü deneyimi burada bulabilirsiniz. Amacımız, size sadece "nereye gidilir"i değil, "nasıl hissedilir"i de anlatmak.
+                </p>
+            </div>
+
+            <!-- Alt Kısım: Neden Biz? (3'lü Kutu - SEYAHAT İKONLARIYLA) -->
+            <div class="features-grid">
+                <div class="feature-box">
+                    <div class="f-icon">🧭</div>
+                    <h3>Doğru Rotalar</h3>
+                    <p>Zaman kaybettirmeyen, nokta atışı gezi planları ve haritalar.</p>
+                </div>
+                <div class="feature-box">
+                    <div class="f-icon">📸</div>
+                    <h3>Gerçek Deneyim</h3>
+                    <p>İnternetten kopyalanmış bilgiler değil, yaşanmış ve test edilmiş öneriler.</p>
+                </div>
+                <div class="feature-box">
+                    <div class="f-icon">🌍</div>
+                    <h3>Sürdürülebilir</h3>
+                    <p>Doğaya ve yerel kültürlere saygılı, bilinçli seyahat anlayışı.</p>
+                </div>
+            </div>
+
+        </section>
+    <% } %>
+
+
+    <!-- İLETİŞİM SAYFASI -->
+    <% if (page === 'iletisim') { %>
+        <section class="static-page-wrapper contact-wrapper">
+            <div class="contact-header">
+                <h1>Bize Ulaşın</h1>
+                <p>Rota önerileri, reklam işbirlikleri veya sadece merhaba demek için...</p>
+            </div>
+
+            <div class="contact-grid">
+                
+                <!-- 1. E-Posta Kartı -->
+                <a href="mailto:info@travellog.com" class="contact-card mail-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    </div>
+                    <h3>E-Posta Gönder</h3>
+                    <span class="card-link-text">info@travellog.com</span>
+                </a>
+
+                <!-- 2. Instagram Kartı -->
+                <a href="https://instagram.com/" target="_blank" class="contact-card insta-card">
+                    <div class="card-icon">
+                        <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                    </div>
+                    <h3>Instagram'da Takip Et</h3>
+                    <span class="card-link-text">@travellog_tr</span>
+                </a>
+
+            </div>
+        </section>
+    <% } %>
+
+</main>
+
+<%- include('partials/footer') %>

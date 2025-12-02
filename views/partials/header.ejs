@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <meta name="description" content="Dünyanın en özel rotaları, şehir rehberleri ve seyahat ipuçları TravelLog'da.">
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- Fontlar -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="main-header">
+        <div class="logo">
+            <a href="/">TravelLog<span>.</span> ✈️</a>
+        </div>
+        
+        <div class="search-box">
+            <form action="/" method="GET">
+                <input type="text" name="search" placeholder="Rota veya şehir ara..." value="<%= typeof searchQuery !== 'undefined' ? searchQuery : '' %>">
+                <button type="submit">Ara</button>
+            </form>
+        </div>
+    </header>
+
+    <!-- Seyahat Kategorileri (AI Botun Bölgeleriyle Eşleşti) -->
+    <nav class="category-nav">
+        <!-- Anasayfa Linki -->
+        <a href="/" class="<%= !activeCategory ? 'active' : '' %>">Tümü</a>
+
+        <!-- Python Botundaki Kategoriler -->
+        <a href="/?category=Balkan Rüyası" class="<%= activeCategory === 'Balkan Rüyası' ? 'active' : '' %>">Balkan Rüyası</a>
+        <a href="/?category=Doğu Avrupa" class="<%= activeCategory === 'Doğu Avrupa' ? 'active' : '' %>">Doğu Avrupa</a>
+        <a href="/?category=Batı Avrupa Klasikleri" class="<%= activeCategory === 'Batı Avrupa Klasikleri' ? 'active' : '' %>">Batı Avrupa</a>
+        <a href="/?category=Akdeniz Esintisi" class="<%= activeCategory === 'Akdeniz Esintisi' ? 'active' : '' %>">Akdeniz</a>
+        <a href="/?category=Kuzey Amerika" class="<%= activeCategory === 'Kuzey Amerika' ? 'active' : '' %>">Kuzey Amerika</a>
+        <a href="/?category=Güney Amerika" class="<%= activeCategory === 'Güney Amerika' ? 'active' : '' %>">Güney Amerika</a>
+        <a href="/?category=Uzak Doğu" class="<%= activeCategory === 'Uzak Doğu' ? 'active' : '' %>">Uzak Doğu</a>
+        <a href="/?category=Orta Doğu" class="<%= activeCategory === 'Orta Doğu' ? 'active' : '' %>">Orta Doğu</a>
+    </nav>
