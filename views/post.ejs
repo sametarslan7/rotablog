@@ -1,12 +1,24 @@
 <%- include('partials/header') %>
 
+<!-- OKUMA SÜRESİ HESAPLAMA (SERVER'I YORMADAN) -->
+<% 
+    const kelimeSayisi = blog.content.replace(/<[^>]*>/g, '').split(/\s+/).length; 
+    const okumaHizi = 200; // Ortalama bir insan dakikada 200 kelime okur
+    const sure = Math.ceil(kelimeSayisi / okumaHizi); 
+%>
+
+<main class="container">
 <div class="post-wrapper">
     <!-- Blog İçeriği -->
     <article class="full-post">
         <div class="post-header">
             <span class="post-cat"><%= blog.category %></span>
             <h1><%= blog.title %></h1>
-            <span class="post-date"><%= blog.date %></span>
+            <div class="meta-info" style="color: #6b7280; font-size: 14px; margin-top: 5px;">
+    <span class="post-date">📅 <%= new Date(blog.date).toLocaleDateString('tr-TR', { year: 'numeric', month: 'long', day: 'numeric' }) %></span>
+    <span class="separator" style="margin: 0 10px;">•</span>
+    <span class="read-time">⏱️ <%= sure %> dk okuma süresi</span>
+</div>
             <!-- ... üstte başlık ve tarih var ... -->
                 
                 <!-- YENİ: SOSYAL MEDYA PAYLAŞIM BUTONLARI -->
