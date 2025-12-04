@@ -20,7 +20,7 @@ mongoose.connect(MONGO_URI)
     .then(() => console.log("✅ MongoDB Bağlantısı Başarılı!"))
     .catch(err => console.error("❌ MongoDB Bağlantı Hatası:", err));
 
-// 3. VERİTABANI MODELİ (ŞEMA)
+// --- MONGODB ŞEMASI (GÜNCELLENDİ: Yorumlar ve Beğeni Eklendi) ---
 const blogSchema = new mongoose.Schema({
     id: String,
     title: String,
@@ -30,7 +30,14 @@ const blogSchema = new mongoose.Schema({
     content: String,
     image: String,
     tags: [String],
-    date: Date
+    date: Date,
+    // YENİ EKLENENLER:
+    likes: { type: Number, default: 0 }, // Beğeni Sayısı
+    comments: [{                         // Yorumlar Dizisi
+        name: String,
+        text: String,
+        date: { type: Date, default: Date.now }
+    }]
 });
 
 const Blog = mongoose.model('Blog', blogSchema);
@@ -271,6 +278,42 @@ app.get('/sayfa/:page', (req, res) => {
 });
 
 const PORT = 3000;
+// --- YENİ ÖZELLİKLER: YORUM VE BEĞENİ ROTALARI ---
+
+// 1. Yorum Yapma (POST)
+app.post('/blog/:slug/comment', async (req, res) => {
+    try {
+        const { name, comment } = req.body;
+        // Basit doğrulama
+        if (!name || !comment) return res.redirect(`/blog/${req.params.slug}`);
+
+        const blog = await Blog.findOne({ slug: req.params.slug });
+        if (blog) {
+            blog.comments.push({ name: name, text: comment });
+            await blog.save();
+        }
+        res.redirect(`/blog/${req.params.slug}#comments-section`); // Yorum alanına geri dön
+    } catch (error) {
+        console.error(error);
+        res.redirect('/');
+    }
+});
+
+// 2. Beğeni Yapma (API - Sayfa yenilenmeden çalışması için)
+app.post('/api/blog/:slug/like', async (req, res) => {
+    try {
+        const blog = await Blog.findOne({ slug: req.params.slug });
+        if (blog) {
+            blog.likes += 1;
+            await blog.save();
+            res.json({ success: true, newLikes: blog.likes });
+        } else {
+            res.status(404).json({ success: false });
+        }
+    } catch (error) {
+        res.status(500).json({ success: false });
+    }
+});
 app.listen(PORT, () => {
     console.log(`✈️  Seyahat Blogu Yayında: http://localhost:${PORT}`);
 });

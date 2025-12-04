@@ -429,3 +429,82 @@ ul { list-style: none; padding: 0; margin: 0; }
     border-top: 1px solid #e5e7eb;
     margin: 40px 0;
 }
+/* --- BEĞENİ VE YORUMLAR --- */
+.like-section {
+    text-align: center;
+    margin: 40px 0;
+    padding: 20px;
+    background: #f9fafb;
+    border-radius: 12px;
+}
+
+.like-button {
+    background: white;
+    border: 2px solid #e5e7eb;
+    padding: 10px 25px;
+    border-radius: 50px;
+    font-size: 16px;
+    cursor: pointer;
+    color: var(--dark);
+    font-weight: 700;
+    transition: 0.3s;
+    margin-right: 15px;
+}
+
+.like-button:hover { border-color: #ef4444; color: #ef4444; }
+.like-button.liked { background: #ef4444; color: white; border-color: #ef4444; cursor: default; }
+
+.separator { border: 0; border-top: 1px solid #e5e7eb; margin: 40px 0; }
+
+/* Yorumlar */
+.comments-wrapper { margin-top: 40px; }
+.comment-item { display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #f3f4f6; padding-bottom: 20px; }
+.comment-avatar { 
+    width: 50px; height: 50px; background: var(--primary); color: white; 
+    border-radius: 50%; display: flex; align-items: center; justify-content: center; 
+    font-weight: bold; font-size: 20px; flex-shrink: 0;
+}
+.comment-body h4 { margin: 0; }
+.comment-date { font-size: 12px; color: #9ca3af; display: block; margin-bottom: 5px; }
+.no-comments { color: #9ca3af; font-style: italic; text-align: center; }
+
+/* Form */
+.comment-form { background: #f9fafb; padding: 25px; border-radius: 12px; margin-top: 30px; }
+.comment-form input, .comment-form textarea {
+    width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #e5e7eb; 
+    border-radius: 8px; font-family: inherit; box-sizing: border-box;
+}
+.btn-submit {
+    background: var(--dark); color: white; border: none; padding: 10px 30px; 
+    border-radius: 6px; cursor: pointer; font-weight: bold;
+}
+.btn-submit:hover { background: var(--primary); }
+/* --- ANA SAYFA KART BEĞENİ GÖSTERGESİ --- */
+
+/* Kartın alt kısmı: Buton solda, Kalp sağda dursun */
+.card-footer {
+    display: flex;
+    justify-content: space-between; /* İki uca yasla */
+    align-items: center; /* Dikeyde ortala */
+    margin-top: auto; /* Kart uzarsa en alta it */
+    padding-top: 15px; /* Üstteki metinden ayır */
+}
+
+/* Kalp ve Sayı Kutusu */
+.card-likes {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Kalp ile sayı arası boşluk */
+    background: #fff1f2; /* Çok açık kırmızı arka plan */
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    color: #be123c; /* Koyu kırmızı yazı */
+    font-weight: 700;
+    cursor: default; /* Tıklanmaz imleci */
+    border: 1px solid #fecdd3;
+}
+
+.heart-icon {
+    font-size: 14px;
+}

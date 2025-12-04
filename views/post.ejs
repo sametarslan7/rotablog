@@ -13,9 +13,56 @@
         
         <!-- AdSense Yazı İçi -->
 
+        <!-- ... Yukarıda blog içeriği var ... -->
+        
         <div class="post-content">
             <%- blog.content %>
         </div>
+
+        <!-- YENİ: BEĞENİ ALANI -->
+        <div class="like-section">
+            <button id="likeBtn" class="like-button" onclick="likePost('<%= blog.slug %>')">
+                ❤️ <span id="likeText">Bu Yazıyı Beğen</span>
+            </button>
+            <span class="like-count"><strong id="likeCount"><%= blog.likes %></strong> kişi beğendi</span>
+        </div>
+
+        <hr class="separator">
+
+        <!-- YENİ: YORUMLAR ALANI -->
+        <div class="comments-wrapper" id="comments-section">
+            <h3>Yorumlar (<%= blog.comments.length %>)</h3>
+
+            <!-- Yorum Listesi -->
+            <div class="comments-list">
+                <% if (blog.comments.length > 0) { %>
+                    <% blog.comments.forEach(comment => { %>
+                        <div class="comment-item">
+                            <div class="comment-avatar"><%= comment.name.charAt(0).toUpperCase() %></div>
+                            <div class="comment-body">
+                                <strong><%= comment.name %></strong>
+                                <span class="comment-date"><%= new Date(comment.date).toLocaleDateString('tr-TR') %></span>
+                                <p><%= comment.text %></p>
+                            </div>
+                        </div>
+                    <% }) %>
+                <% } else { %>
+                    <p class="no-comments">Henüz yorum yapılmamış. İlk yorumu sen yap! 👇</p>
+                <% } %>
+            </div>
+
+            <!-- Yorum Yapma Formu -->
+            <div class="comment-form">
+                <h4>Yorum Bırak</h4>
+                <form action="/blog/<%= blog.slug %>/comment" method="POST">
+                    <input type="text" name="name" placeholder="Adınız" required>
+                    <textarea name="comment" rows="4" placeholder="Yorumunuzu buraya yazın..." required></textarea>
+                    <button type="submit" class="btn-submit">Gönder</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- ... Aşağıda post-footer ve etiketler var ... -->
 
         <div class="post-footer">
             <h4>Etiketler:</h4>
@@ -27,5 +74,39 @@
         </div>
     </article>
 </div>
+<script>
+    // Sayfa yüklendiğinde kontrol et: Daha önce beğenmiş mi?
+    const slug = "<%= blog.slug %>";
+    const localKey = "liked_" + slug;
+    const likeBtn = document.getElementById("likeBtn");
+    const likeText = document.getElementById("likeText");
 
+    if (localStorage.getItem(localKey)) {
+        likeBtn.classList.add("liked");
+        likeBtn.disabled = true;
+        likeText.innerText = "Beğendiniz";
+    }
+
+    // Beğeni Butonuna Tıklanınca
+    function likePost(slug) {
+        // Eğer zaten beğendiyse işlem yapma
+        if (localStorage.getItem(localKey)) return;
+
+        fetch('/api/blog/' + slug + '/like', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Sayıyı güncelle
+                    document.getElementById("likeCount").innerText = data.newLikes;
+                    
+                    // Butonu pasif yap ve kaydet
+                    likeBtn.classList.add("liked");
+                    likeBtn.disabled = true;
+                    likeText.innerText = "Beğendiniz";
+                    localStorage.setItem(localKey, "true");
+                }
+            })
+            .catch(err => console.error("Hata:", err));
+    }
+</script>
 <%- include('partials/footer') %>
