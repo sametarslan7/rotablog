@@ -165,7 +165,7 @@ app.get('/', async (req, res) => {
         recentBlogs.forEach(b => b.tags.forEach(t => allTags.add(t)));
 
         res.render('index', {
-            title: "TravelLog | Dünyayı Keşfet",
+            title: "RotaBlog | Dünyayı Keşfet",
             featured: featured,
             blogs: blogs,
             searchQuery: searchQuery,
@@ -281,7 +281,7 @@ app.get('/rehber/:page', (req, res) => {
 app.get('/sayfa/:page', (req, res) => {
     const pageName = req.params.page; 
     res.render('page', { 
-        title: pageName.toUpperCase() + " | TravelLog", 
+        title: pageName.toUpperCase() + " | RotaBlog", 
         page: pageName,
         searchQuery: '',
         activeCategory: '',
