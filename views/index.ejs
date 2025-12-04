@@ -5,7 +5,15 @@
     <!-- SLIDER (Aynı kalıyor) -->
     <% if (!searchQuery && !activeCategory && currentPage === 1) { %>
     <section class="featured-slider">
-        <h2 class="section-title">Öne Çıkan Rotalar</h2>
+        
+        <!-- Başlık ve Random Butonu Yan Yana -->
+        <div class="section-header">
+            <h2 class="section-title" style="margin-bottom: 0;">Öne Çıkan Rotalar</h2>
+            <a href="/random" class="btn-random">
+                🎲 Beni Şaşırt
+            </a>
+        </div>
+
         <div class="slider-track">
             <% featured.forEach(blog => { %>
                 <div class="slide-item">

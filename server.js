@@ -224,16 +224,42 @@ app.get('/', async (req, res) => {
         res.status(500).send("Sunucu hatası oluştu.");
     }
 });
-
-// 2. DETAY SAYFASI
+// --- YENİ: RASTGELE ROTA (Beni Şaşırt) ---
+app.get('/random', async (req, res) => {
+    try {
+        // MongoDB'den rastgele 1 kayıt getir
+        const randomBlog = await Blog.aggregate([{ $sample: { size: 1 } }]);
+        
+        if (randomBlog.length > 0) {
+            // Yazının detay sayfasına yönlendir
+            res.redirect('/blog/' + randomBlog[0].slug);
+        } else {
+            res.redirect('/');
+        }
+    } catch (error) {
+        console.error(error);
+        res.redirect('/');
+    }
+});
+// 2. DETAY SAYFASI (GÜNCELLENDİ: Benzer Yazılar Eklendi)
 app.get('/blog/:slug', async (req, res) => {
     try {
+        // 1. Mevcut yazıyı bul
         const blog = await Blog.findOne({ slug: req.params.slug });
 
         if (blog) {
+            // 2. Aynı kategoriden, şu anki yazı HARİÇ rastgele veya son 3 yazıyı bul
+            const relatedPosts = await Blog.find({
+                category: blog.category,
+                _id: { $ne: blog._id } // Şu anki yazının ID'sine eşit olmayanları getir
+            })
+            .limit(3) // Sadece 3 tane
+            .sort({ date: -1 }); // En yenileri getir
+
             res.render('post', {
                 title: `${blog.title} - Gezi Rehberi`,
                 blog: blog,
+                relatedPosts: relatedPosts, // Yeni veriyi gönderiyoruz
                 searchQuery: '',
                 activeCategory: '',
                 currentPage: 1
