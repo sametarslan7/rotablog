@@ -2,13 +2,13 @@
 
 <main class="container">
 
-    <!-- SLIDER (Aynı kalıyor) -->
+    <!-- SLIDER: OTOMATİK OLARAK EN ÇOK OKUNAN 3 YAZI GELİR -->
     <% if (!searchQuery && !activeCategory && currentPage === 1) { %>
     <section class="featured-slider">
         
-        <!-- Başlık ve Random Butonu Yan Yana -->
+        <!-- Başlık ve Random Butonu -->
         <div class="section-header">
-            <h2 class="section-title" style="margin-bottom: 0;">Öne Çıkan Rotalar</h2>
+            <h2 class="section-title" style="margin-bottom: 0;">🔥 En Çok Okunan Rotalar</h2>
             <a href="/random" class="btn-random">
                 🎲 Beni Şaşırt
             </a>
@@ -28,13 +28,10 @@
     </section>
     <% } %>
 
-    <!-- AdSense -->
-    
-
-    <!-- ANA İÇERİK -->
+    <!-- ANA İÇERİK DÜZENİ -->
     <div class="content-wrapper">
         
-        <!-- SOL SÜTUN (Aynı kalıyor) -->
+        <!-- SOL SÜTUN: Blog Listesi -->
         <div class="main-column">
             <h2 class="section-title">
                 <%= activeCategory ? activeCategory : 'Son Eklenen Gezi Rehberleri' %>
@@ -52,36 +49,39 @@
                             <div class="card-body">
                                 <h3><%= blog.title %></h3>
                                 <p><%= blog.summary ? blog.summary.replace(/<[^>]*>?/gm, '').substring(0, 120) + '...' : '' %></p>
+                                
                                 <div class="card-footer">
-    <a href="/blog/<%= blog.slug %>" class="read-more-btn">Devamını Oku &rarr;</a>
-    
-    <!-- Yeni Eklenen Beğeni Göstergesi -->
-    <div class="card-likes" title="Bu rota <%= blog.likes %> kişi tarafından beğenildi">
-        <span class="heart-icon">❤️</span> 
-        <span class="like-number"><%= blog.likes %></span>
-    </div>
-</div>
+                                    <a href="/blog/<%= blog.slug %>" class="read-more-btn">Devamını Oku &rarr;</a>
+                                    
+                                    <!-- Beğeni Göstergesi -->
+                                    <div class="card-likes" title="Bu rota <%= blog.likes %> kişi tarafından beğenildi">
+                                        <span class="heart-icon">❤️</span> 
+                                        <span class="like-number"><%= blog.likes %></span>
+                                    </div>
+                                </div>
                             </div>
                         </article>
                     <% }) %>
                 <% } else { %>
                     <div style="padding: 40px; text-align: center; width: 100%; background: #fff; border-radius: 8px;">
                         <h3>😔 Sonuç Bulunamadı</h3>
-                        <p>Aradığınız kriterlere uygun yazı henüz eklenmemiş.</p>
+                        <p>Aradığınız kriterlere uygun gezi yazısı henüz eklenmemiş.</p>
                         <a href="/" style="color: #059669; font-weight: bold;">Ana Sayfaya Dön</a>
                     </div>
                 <% } %>
             </div>
 
-            <!-- Sayfalama (Aynı kalıyor) -->
+            <!-- SAYFALAMA -->
             <% if (totalPages > 1) { %>
             <div class="pagination">
                 <% if (currentPage > 1) { %>
                     <a href="/?page=<%= currentPage - 1 %><%= activeCategory ? '&category='+activeCategory : '' %><%= searchQuery ? '&search='+searchQuery : '' %>" class="page-link prev">&laquo; Önceki</a>
                 <% } %>
+
                 <% for(let i = 1; i <= totalPages; i++) { %>
                     <a href="/?page=<%= i %><%= activeCategory ? '&category='+activeCategory : '' %><%= searchQuery ? '&search='+searchQuery : '' %>" class="page-link <%= currentPage === i ? 'active' : '' %>"><%= i %></a>
                 <% } %>
+
                 <% if (currentPage < totalPages) { %>
                     <a href="/?page=<%= currentPage + 1 %><%= activeCategory ? '&category='+activeCategory : '' %><%= searchQuery ? '&search='+searchQuery : '' %>" class="page-link next">Sonraki &raquo;</a>
                 <% } %>
@@ -89,10 +89,10 @@
             <% } %>
         </div>
 
-        <!-- SAĞ SÜTUN: Sidebar (SADELEŞTİRİLDİ) -->
+        <!-- SAĞ SÜTUN: Sidebar -->
         <aside class="sidebar">
             
-            <!-- ÖZEL REHBERLER KISMI -->
+            <!-- 1. WIDGET: Gezginin Çantası -->
             <div class="widget">
                 <h3 style="color: #d97706;">🎒 Gezginin Çantası</h3>
                 <ul class="widget-list">
@@ -104,13 +104,13 @@
                 </ul>
             </div>
 
-            <!-- Hakkımızda -->
+            <!-- 2. WIDGET: Hakkımızda -->
             <div class="widget">
-                <h3>RotaBlog Hakkında</h3>
+                <h3>TravelLog Hakkında</h3>
                 <p style="font-size: 14px;">Biz, dünyayı keşfetmek isteyenler için yapay zeka destekli, güncel ve detaylı gezi rehberleri hazırlayan dijital bir seyahat günlüğüyüz.</p>
             </div>
 
-            <!-- Etiketler -->
+            <!-- 3. WIDGET: Etiketler -->
             <div class="widget">
                 <h3>Popüler Etiketler</h3>
                 <div class="tag-cloud">
@@ -123,9 +123,6 @@
                     <% } %>
                 </div>
             </div>
-
-            <!-- Reklam -->
-            
 
         </aside>
 

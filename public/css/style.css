@@ -33,7 +33,6 @@ ul { list-style: none; padding: 0; margin: 0; }
     justify-content: space-between; 
     align-items: center; 
     box-shadow: 0 2px 10px rgba(0,0,0,0.03); 
-    position: sticky;
     top: 0;
     z-index: 100;
 }
@@ -686,4 +685,202 @@ ul { list-style: none; padding: 0; margin: 0; }
     .section-title {
         font-size: 20px; /* Mobilde başlık biraz küçülsün */
     }
+}
+
+/* --- EN ÇOK OKUNANLAR WIDGET --- */
+.popular-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.popular-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.popular-item:hover {
+    transform: translateX(5px);
+}
+
+.popular-number {
+    font-size: 24px;
+    font-weight: 800;
+    color: #e5e7eb; /* Açık gri numara */
+    line-height: 1;
+    min-width: 20px;
+    text-align: center;
+}
+
+/* İlk 3 numara renkli olsun */
+.popular-item:nth-child(1) .popular-number { color: #f59e0b; } /* Altın */
+.popular-item:nth-child(2) .popular-number { color: #9ca3af; } /* Gümüş */
+.popular-item:nth-child(3) .popular-number { color: #b45309; } /* Bronz */
+
+.popular-info h4 {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--dark);
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.popular-info .view-count {
+    font-size: 11px;
+    color: #9ca3af;
+    margin-top: 3px;
+    display: block;
+}
+
+/* --- HEADER VE NAV SABİTLEME (GÜNCEL) --- */
+.sticky-wrapper {
+    position: sticky; /* Yapışkan özellik */
+    top: 0;           /* En tepeye yapış */
+    z-index: 1000;    /* Diğer her şeyin üstünde dur */
+    width: 100%;
+}
+
+/* Eski sticky özelliklerini iptal et (Çakışmayı önlemek için) */
+.main-header {
+    position: relative !important; 
+    top: auto !important;
+    /* Eğer varsa eski sticky kodlarını buradan silmek daha iyidir */
+}
+/* --- YENİ İLETİŞİM SAYFASI TASARIMI --- */
+.contact-centered-wrapper {
+    max-width: 800px;
+    margin: 60px auto; /* Üstten alttan boşluk, yatayda ortala */
+    text-align: center;
+}
+
+.contact-intro h1 {
+    font-size: 32px;
+    margin-bottom: 10px;
+    color: var(--dark);
+}
+
+.contact-intro p {
+    color: #6b7280;
+    margin-bottom: 40px;
+}
+
+/* Kartların Kapsayıcısı */
+.contact-boxes {
+    display: flex;
+    justify-content: center; /* Kartları ortala */
+    gap: 30px; /* Aralarındaki boşluk */
+    flex-wrap: wrap; /* Mobilde alt alta geçsin */
+}
+
+/* Genel Kart Stili */
+.c-box {
+    background: white;
+    width: 220px; /* Kare olması için sabit genişlik */
+    height: 220px; /* Kare olması için sabit yükseklik */
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    border: 1px solid #f3f4f6;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.c-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+.c-box h3 {
+    margin: 15px 0 5px 0;
+    font-size: 18px;
+    color: var(--dark);
+}
+
+.c-box span {
+    font-size: 14px;
+    color: #9ca3af;
+}
+
+/* İkon Daireleri */
+.icon-circle {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+/* RENKLENDİRME */
+
+/* E-Posta: Kırmızı/Turuncu */
+.mail-icon {
+    background: #fff1f2; /* Çok açık kırmızı zemin */
+    color: #e11d48;      /* Koyu kırmızı ikon */
+}
+.mail-box:hover .mail-icon {
+    background: #e11d48;
+    color: white;
+    transition: 0.3s;
+}
+
+/* Instagram: Gradyan */
+.insta-icon {
+    background: #fdf2f8; /* Çok açık pembe zemin */
+    color: #db2777;      /* Pembe ikon */
+}
+.insta-box:hover .insta-icon {
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); /* Instagram Gradyanı */
+    color: white;
+    transition: 0.3s;
+}
+/* --- HAKKIMDA SAYFASI KUTULARI --- */
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Yan yana, mobilde alt alta */
+    gap: 30px;
+    margin-top: 40px;
+}
+
+.feature-box {
+    background: #f9fafb;
+    padding: 30px;
+    border-radius: 16px;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    background: white;
+}
+
+.f-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+}
+
+.feature-box h3 {
+    margin: 10px 0;
+    font-size: 20px;
+    color: var(--dark);
+}
+
+.feature-box p {
+    color: #6b7280;
+    font-size: 14px;
+    line-height: 1.6;
 }

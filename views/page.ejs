@@ -3,84 +3,102 @@
 <main class="container">
 
     <!-- HAKKIMDA SAYFASI (SEYAHAT KONSEPTİ) -->
+    <!-- HAKKIMDA SAYFASI (AI & TEKNOLOJİ KONSEPTİ) -->
     <% if (page === 'hakkimda') { %>
-        <section class="static-page-wrapper about-wrapper">
+        
+        <section class="static-page-wrapper about-wrapper" style="max-width: 900px; margin: 60px auto; padding: 0 20px;">
             
-            <!-- Üst Kısım: Profil ve Başlık -->
-            <div class="about-hero">
-                <div class="profile-frame">
-                    <!-- Seyahat temalı rastgele bir görsel (Pusula/Harita vb.) -->
-                    <img src="https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&q=80" alt="TravelLog" class="about-img">
+            <!-- 1. ÜST KISIM: Görsel ve Başlık -->
+            <div class="about-hero" style="text-align: center; margin-bottom: 50px;">
+                
+                <div class="hero-image-frame" style="position: relative; display: inline-block; width: 100%; max-width: 800px;">
+                    <!-- Teknoloji ve seyahati birleştiren bir görsel -->
+                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1000&q=80" 
+                         alt="Yapay Zeka ve Seyahat" 
+                         style="width: 100%; height: 400px; object-fit: cover; border-radius: 20px; box-shadow: 0 15px 40px rgba(0,0,0,0.15);">
+                    
+                    <div style="position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); background: white; padding: 10px 30px; border-radius: 50px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); font-weight: bold; color: #059669; border: 1px solid #f3f4f6;">
+                        AI Powered Travel 🤖
+                    </div>
                 </div>
-                <h1>Dünyayı Bizimle Keşfedin</h1>
-                <p class="tagline">Macera • Kültür • Özgürlük</p>
+
+                <h1 style="font-size: 42px; margin-top: 50px; color: #1f2937; margin-bottom: 10px;">Geleceğin Seyahat Rehberi</h1>
+                <p style="font-size: 18px; color: #6b7280; font-weight: 300;">Veri • Algoritma • Keşif</p>
             </div>
 
-            <!-- Orta Kısım: Hikaye -->
-            <div class="about-content">
-                <p>
-                    Merhaba! <strong>TravelLog</strong>'a hoş geldiniz. Burası sadece turistik yerlerin listelendiği sıradan bir rehber değil; yola çıkma tutkusunu ateşleyen, farklı kültürlere dokunmanızı sağlayan bir ilham kaynağıdır.
+            <!-- 2. ORTA KISIM: Misyon ve Teknoloji Açıklaması -->
+            <div class="about-content" style="font-size: 18px; line-height: 1.8; color: #374151; margin-bottom: 40px;">
+                <p style="margin-bottom: 20px;">
+                    Merhaba! <strong>Rotablog</strong>, klasik seyahat bloglarından farklıdır. Buradaki içerikler, <strong>gelişmiş Yapay Zeka (AI)</strong> teknolojileri kullanılarak, binlerce veri noktasının analiz edilmesiyle oluşturulmuştur.
                 </p>
-                <p>
-                    Sırt çantanızı alıp plansızca çıkılan yollardan, lüks ve konforlu tatil rotalarına kadar her türlü deneyimi burada bulabilirsiniz. Amacımız, size sadece "nereye gidilir"i değil, "nasıl hissedilir"i de anlatmak.
+                <p style="margin-bottom: 20px;">
+                    Amacımız, size dünyanın dört bir yanındaki popüler ve gizli kalmış rotalar hakkında hızlı, kapsamlı ve ilham verici fikirler sunmaktır. Teknoloji, sizin için en iyi rotaları çizerken, keşfetme tutkusu size kalır.
                 </p>
+                
+                <!-- ÖNEMLİ UYARI KUTUSU -->
+                <div style="background: #fff7ed; border-left: 5px solid #f97316; padding: 20px; border-radius: 8px; margin-top: 30px;">
+                    <h3 style="margin-top: 0; color: #c2410c; font-size: 20px;">⚠️ Gezginlere Önemli Not</h3>
+                    <p style="font-size: 16px; margin-bottom: 0;">
+                        Bu sitedeki içerikler yapay zeka tarafından derlenmiş önerilerdir ve <strong>birebir yaşanmış deneyimlere dayanmamaktadır.</strong> Mekanların güncel durumu, fiyatlar veya vize kuralları zamanla değişebilir. Buradaki bilgileri bir <strong>"İlham Kaynağı"</strong> olarak kullanmanızı, yola çıkmadan önce mutlaka resmi kaynaklardan ve güncel forumlardan teyit etmenizi öneririz.
+                    </p>
+                </div>
             </div>
 
-            <!-- Alt Kısım: Neden Biz? (3'lü Kutu - SEYAHAT İKONLARIYLA) -->
+            <!-- 3. ALT KISIM: Özellikler (Kartlar) -->
             <div class="features-grid">
                 <div class="feature-box">
-                    <div class="f-icon">🧭</div>
-                    <h3>Doğru Rotalar</h3>
-                    <p>Zaman kaybettirmeyen, nokta atışı gezi planları ve haritalar.</p>
+                    <div class="f-icon">🤖</div>
+                    <h3>AI Destekli</h3>
+                    <p>En güncel algoritmalarla derlenmiş, veri odaklı zengin içerikler.</p>
                 </div>
                 <div class="feature-box">
-                    <div class="f-icon">📸</div>
-                    <h3>Gerçek Deneyim</h3>
-                    <p>İnternetten kopyalanmış bilgiler değil, yaşanmış ve test edilmiş öneriler.</p>
+                    <div class="f-icon">💡</div>
+                    <h3>İlham Kaynağı</h3>
+                    <p>Seyahat planınızı yaparken size başlangıç noktası olacak fikirler.</p>
                 </div>
                 <div class="feature-box">
-                    <div class="f-icon">🌍</div>
-                    <h3>Sürdürülebilir</h3>
-                    <p>Doğaya ve yerel kültürlere saygılı, bilinçli seyahat anlayışı.</p>
+                    <div class="f-icon">🔍</div>
+                    <h3>Bilinçli Gezgin</h3>
+                    <p>Rotaları keşfedin, araştırın ve kendi eşsiz deneyiminizi yaratın.</p>
                 </div>
             </div>
 
         </section>
     <% } %>
 
-
     <!-- İLETİŞİM SAYFASI -->
+    <!-- İLETİŞİM SAYFASI (YENİ ORTALI TASARIM) -->
     <% if (page === 'iletisim') { %>
-        <section class="static-page-wrapper contact-wrapper">
-            <div class="contact-header">
+        <section class="contact-centered-wrapper">
+            
+            <div class="contact-intro">
                 <h1>Bize Ulaşın</h1>
-                <p>Rota önerileri, reklam işbirlikleri veya sadece merhaba demek için...</p>
+                <p>Sorularınız, işbirlikleri veya sadece merhaba demek için...</p>
             </div>
 
-            <div class="contact-grid">
+            <div class="contact-boxes">
                 
                 <!-- 1. E-Posta Kartı -->
-                <a href="mailto:info@travellog.com" class="contact-card mail-card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                <a href="mailto:info@rotablog.com" class="c-box mail-box">
+                    <div class="icon-circle mail-icon">
+                        <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
                     </div>
-                    <h3>E-Posta Gönder</h3>
-                    <span class="card-link-text">blogonsiteweb@gmail.com</span>
+                    <h3>E-Posta</h3>
+                    <span>info@rotablog.com</span>
                 </a>
 
                 <!-- 2. Instagram Kartı -->
-                <a href="https://instagram.com/" target="_blank" class="contact-card insta-card">
-                    <div class="card-icon">
-                        <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
+                <a href="https://instagram.com/rotablog" target="_blank" class="c-box insta-box">
+                    <div class="icon-circle insta-icon">
+                        <svg viewBox="0 0 24 24" width="40" height="40" fill="currentColor"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.069-4.85.069-3.204 0-3.584-.011-4.849-.069-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
                     </div>
-                    <h3>Instagram'da Takip Et</h3>
-                    <span class="card-link-text">@rotablog</span>
+                    <h3>Instagram</h3>
+                    <span>@rotablog</span>
                 </a>
 
             </div>
         </section>
     <% } %>
-
 </main>
 
 <%- include('partials/footer') %>
