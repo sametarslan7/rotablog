@@ -116,13 +116,41 @@ const REHBERLER = {
     },
     'interrail': {
         title: "Sırt Çantanı Hazırla: Interrail Başlangıç Rehberi",
-        image: "https://images.unsplash.com/photo-1515165592879-1849b8896089?auto=format&fit=crop&w=1200&q=80",
+        // Kapak Resmi: (Yeni ve Çalışan Link - Tren Rayları Manzarası)
+        image: "https://images.unsplash.com/photo-1535535112387-56ffe8db21ff?auto=format&fit=crop&w=1200&q=80",
         content: `
-            <h3>Tek Biletle Tüm Avrupa</h3>
-            <p>Avrupa'nın 33 ülkesini trenle gezme rehberi.</p>
-            <img src="/img/tren.jpg" alt="Tren">
-            <h3>Rezervasyon Ücretlerine Dikkat! ⚠️</h3>
-            <p>Hızlı trenlerde ek ücret ödemeniz gerekebilir.</p>
+            <p class="guide-intro">Tek bir biletle Avrupa'nın 33 ülkesini gezmek hayal değil. Interrail, özgürlüğün diğer adıdır. İşte yola çıkmadan önce bilmen gereken en temel 4 kural:</p>
+            
+            <hr>
+
+            <h3>1. Hangi Bileti Almalısın? 🎫</h3>
+            <p>İki ana seçenek vardır:</p>
+            <ul>
+                <li><strong>Global Pass:</strong> Tüm Avrupa'da geçer. En popüler olan "1 ay içinde 5 gün" veya "1 ay içinde 7 gün" seyahat seçenekleridir.</li>
+                <li><strong>One Country Pass:</strong> Sadece tek bir ülkeyi (Örn: Sadece İtalya) gezmek istiyorsan çok daha ekonomiktir.</li>
+            </ul>
+
+            <hr>
+
+            <h3>2. "Rezervasyon" Tuzağına Düşme ⚠️</h3>
+            <p>Interrail biletini aldığında her trene elini kolunu sallayarak binemezsin. Özellikle <strong>hızlı trenler (TGV, Eurostar)</strong> ve <strong>gece trenleri</strong> ek rezervasyon ücreti (10€ - 30€) ister ve yerler sınırlıdır. </p>
+            <p><em>Taktik:</em> Rezervasyon ücretinden kaçmak için "Rail Planner" uygulamasından "Rezervasyon gerektirmeyen trenler" filtresini seçerek bölgesel trenlerle ücretsiz gezebilirsin.</p>
+
+            <!-- İçerik Resmi (Trenin içi/penceresi) -->
+
+            <hr>
+
+            <h3>3. Konaklamayı Ucuza Getir 🌙</h3>
+            <p>Avrupa'da oteller pahalıdır. Bütçeni korumak için:</p>
+            <ul>
+                <li><strong>Gece Trenleri:</strong> Uyurken yol alırsın, otel parası cebinde kalır.</li>
+                <li><strong>Hosteller:</strong> Sadece uyumak için para öde, sosyalleşmek bedava.</li>
+            </ul>
+
+            <hr>
+
+            <h3>4. Yanına Alman Gerekenler 🎒</h3>
+            <p>Asla tekerlekli bavul alma! Arnavut kaldırımlı Avrupa sokaklarında pişman olursun. Mutlaka <strong>sırt çantası</strong> kullan. Yanına powerbank, çoklu priz ve rahat bir yürüyüş ayakkabısı almayı unutma.</p>
         `
     }
 };
