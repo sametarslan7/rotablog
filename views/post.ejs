@@ -25,7 +25,20 @@
                     <span>•</span>
                     <span>⏱️ <%= readTime %> dk okuma</span>
                 </div>
-
+                <!-- HAVA DURUMU WIDGET (EMOJİLİ VERSİYON) -->
+<div id="weatherWidget" style="display: none; align-items: center; gap: 12px; background: #e0f2fe; padding: 8px 20px; border-radius: 50px; margin: 15px auto; width: fit-content; border: 1px solid #bae6fd; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+    <!-- Resim yerine büyük bir Emoji alanı -->
+    <span id="w-icon" style="font-size: 28px; line-height: 1;">🌤️</span>
+    
+    <div style="text-align: left;">
+        <div style="font-weight: 800; color: #0284c7; font-size: 16px; line-height: 1.1;">
+            <span id="w-temp">--</span>°C
+        </div>
+        <div style="font-size: 11px; color: #576d7e; text-transform: capitalize; margin-top: 2px;" id="w-desc">
+            Yükleniyor...
+        </div>
+    </div>
+</div>
                 <!-- Sosyal Paylaşım (Ortalı) -->
                 <div class="share-buttons" style="justify-content: center; margin-top: 20px;">
                     <a href="https://api.whatsapp.com/send?text=<%= blog.title %> - https://rotablog.com/blog/<%= blog.slug %>" target="_blank" class="share-btn whatsapp">WhatsApp</a>
@@ -159,6 +172,67 @@
                 }
             })
             .catch(err => console.error("Hata:", err));
+    }
+    // --- HAVA DURUMU SCRIPT (EMOJİ DESTEKLİ) ---
+    const blogTitleForWeather = "<%= blog.title %>";
+    
+    // 1. Şehir ismini temizle
+    let city = blogTitleForWeather.split(' ')[0].replace(/['’:,].*/, '').trim(); 
+    
+    // 2. Çeviri Sözlüğü
+    const cityDictionary = {
+        "Barselona": "Barcelona", "Atina": "Athens", "Venedik": "Venice", "Londra": "London",
+        "Münih": "Munich", "Kapadokya": "Cappadocia", "Moskova": "Moscow", "Floransa": "Florence",
+        "Roma": "Rome", "Milano": "Milan", "Kahire": "Cairo", "Üsküp": "Skopje",
+        "Saraybosna": "Sarajevo", "Belgrad": "Belgrade", "Bükreş": "Bucharest",
+        "Viyana": "Vienna", "Kopenhag": "Copenhagen", "Meksiko": "Mexico City", "İstanbul": "Istanbul"
+    };
+
+    if (cityDictionary[city]) {
+        city = cityDictionary[city];
+    }
+
+    const weatherApiKey = "ddd502ba6fde213006a6f1f9d2938521"; // <-- Kendi Key'in buraya
+
+    // 3. İkon Kodlarını Emojiye Çeviren Fonksiyon
+    function getWeatherEmoji(iconCode) {
+        const icons = {
+            "01d": "☀️", "01n": "🌙", // Açık
+            "02d": "⛅", "02n": "☁️", // Az Bulutlu
+            "03d": "☁️", "03n": "☁️", // Parçalı Bulutlu
+            "04d": "☁️", "04n": "☁️", // Çok Bulutlu
+            "09d": "🌧️", "09n": "🌧️", // Sağanak
+            "10d": "🌦️", "10n": "🌧️", // Yağmurlu
+            "11d": "⛈️", "11n": "⛈️", // Gök Gürültülü
+            "13d": "❄️", "13n": "❄️", // Karlı
+            "50d": "🌫️", "50n": "🌫️"  // Sisli
+        };
+        return icons[iconCode] || "🌤️"; // Bulamazsa varsayılan
+    }
+
+    if (city && weatherApiKey) {
+        fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${weatherApiKey}&units=metric&lang=tr`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.cod === 200) {
+                document.getElementById('weatherWidget').style.display = "flex";
+                
+                // Sıcaklık
+                document.getElementById('w-temp').innerText = Math.round(data.main.temp);
+                
+                // Açıklama (Baş harfi büyük)
+                let desc = data.weather[0].description;
+                document.getElementById('w-desc').innerText = desc.charAt(0).toUpperCase() + desc.slice(1);
+                
+                // İKON YERİNE EMOJİ KOYUYORUZ
+                const iconCode = data.weather[0].icon;
+                document.getElementById('w-icon').innerText = getWeatherEmoji(iconCode);
+                
+            } else {
+                console.log("Hava durumu bulunamadı: " + city);
+            }
+        })
+        .catch(err => console.log("Hava durumu hatası:", err));
     }
 </script>
 
