@@ -158,6 +158,7 @@ const REHBERLER = {
 // --- ROTALAR ---
 
 // 1. ANASAYFA
+// 1. ANASAYFA
 app.get('/', async (req, res) => {
     try {
         let searchQuery = req.query.search || '';
@@ -181,7 +182,6 @@ app.get('/', async (req, res) => {
         const blogs = await Blog.find(query).sort({ date: -1 }).skip((page - 1) * limit).limit(limit);
 
         // --- ÖNE ÇIKANLAR (SLIDER) ---
-        // DEĞİŞİKLİK: Rastgele DEĞİL, En Çok Tıklanan (Views) 3 Yazı
         let featured = [];
         if (!searchQuery && !categoryQuery && page === 1) {
             featured = await Blog.find().sort({ views: -1 }).limit(3);
@@ -192,10 +192,15 @@ app.get('/', async (req, res) => {
         const allTags = new Set();
         recentBlogs.forEach(b => b.tags.forEach(t => allTags.add(t)));
 
+        // --- YENİ: HARİTA İÇİN VERİ ÇEKME ---
+        // Sitenin hızını düşürmemek için sadece gerekli alanları (title, slug, image) çekiyoruz
+        const allBlogsForMap = await Blog.find({}, 'title slug image category');
+
         res.render('index', {
             title: "RotaBlog | Dünyayı Keşfet",
             featured: featured,
             blogs: blogs,
+            mapData: allBlogsForMap, // Harita verisini EJS'ye gönderiyoruz
             searchQuery: searchQuery,
             activeCategory: categoryQuery,
             currentPage: page,

@@ -2,18 +2,19 @@
 
 <main class="container">
 
-    <!-- SLIDER: OTOMATİK OLARAK EN ÇOK OKUNAN 3 YAZI GELİR -->
+    <!-- 1. BÖLÜM: SLIDER (ORİJİNAL YAPIN KORUNDU) -->
     <% if (!searchQuery && !activeCategory && currentPage === 1) { %>
     <section class="featured-slider">
         
         <!-- Başlık ve Random Butonu -->
         <div class="section-header">
-            <h2 class="section-title" style="margin-bottom: 0;">🔥 En Çok Okunan Rotalar</h2>
+            <h2 class="section-title" style="margin-bottom: 0;">🔥 Öne Çıkan Rotalar</h2>
             <a href="/random" class="btn-random">
                 🎲 Beni Şaşırt
             </a>
         </div>
 
+        <!-- Yana Kaydırmalı Orijinal Yapı -->
         <div class="slider-track">
             <% featured.forEach(blog => { %>
                 <div class="slide-item">
@@ -28,7 +29,7 @@
     </section>
     <% } %>
 
-    <!-- ANA İÇERİK DÜZENİ -->
+    <!-- 2. BÖLÜM: ANA İÇERİK ve SIDEBAR -->
     <div class="content-wrapper">
         
         <!-- SOL SÜTUN: Blog Listesi -->
@@ -127,6 +128,102 @@
         </aside>
 
     </div> 
+
+    <!-- 3. BÖLÜM: DÜNYA HARİTASI (YENİ EKLENDİ - ALTA, KUTULU) -->
+    <% if (!searchQuery && !activeCategory && currentPage === 1) { %>
+    <section class="world-map-section" style="margin: 60px 0;">
+        <h2 class="section-title" style="margin-bottom: 20px;">🌍 Keşfedilen Rotalar</h2>
+        
+        <!-- Harita Kutusu: Beyaz Arkaplan ve Padding ile -->
+        <div style="background: white; padding: 15px; border-radius: 16px; border: 1px solid #e5e7eb; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
+            <div id="travelMap" style="height: 450px; width: 100%; border-radius: 12px; z-index: 1;"></div>
+        </div>
+    </section>
+    <% } %>
+
 </main>
 
 <%- include('partials/footer') %>
+
+<!-- LEAFLET JS (HARİTA İÇİN) -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- HARİTA SCRIPT -->
+<script>
+    const mapElement = document.getElementById('travelMap');
+    if (mapElement) {
+        var map = L.map('travelMap', {
+            minZoom: 2,
+            // Sadece Dikey (Y) eksende sınırla, Yatay (X) sonsuz olsun
+            maxBounds: [[-85, -Infinity], [85, Infinity]],
+            maxBoundsViscosity: 1.0
+        }).setView([25, 10], 2);
+
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; CARTO',
+            subdomains: 'abcd',
+            maxZoom: 19,
+            minZoom: 2
+        }).addTo(map);
+
+        const cityCoordinates = {
+            "Belgrad": [44.7866, 20.4489], "Saraybosna": [43.8563, 18.4131], "Kotor": [42.4247, 18.7712],
+            "Üsküp": [41.9981, 21.4254], "Dubrovnik": [42.6507, 18.0944], "Tiran": [41.3275, 19.8187],
+            "Budva": [42.2881, 18.8425], "Mostar": [43.3438, 17.8078], "Ohrid": [41.1172, 20.8016],
+            "Prag": [50.0755, 14.4378], "Budapeşte": [47.4979, 19.0402], "Krakow": [50.0647, 19.9450],
+            "Lviv": [49.8397, 24.0297], "Varşova": [52.2297, 21.0122], "Paris": [48.8566, 2.3522],
+            "Amsterdam": [52.3676, 4.9041], "Berlin": [52.5200, 13.4050], "Viyana": [48.2082, 16.3738],
+            "Londra": [51.5074, -0.1278], "Roma": [41.9028, 12.4964], "Barselona": [41.3851, 2.1734],
+            "Atina": [37.9838, 23.7275], "Lizbon": [38.7223, -9.1393], "Venedik": [45.4408, 12.3155],
+            "New York": [40.7128, -74.0060], "Los Angeles": [34.0522, -118.2437], "Miami": [25.7617, -80.1918],
+            "Tokyo": [35.6762, 139.6503], "Seul": [37.5665, 126.9780], "Bangkok": [13.7563, 100.5018],
+            "Bali": [-8.4095, 115.1889], "Dubai": [25.2048, 55.2708], "İstanbul": [41.0082, 28.9784],
+            "Kapadokya": [38.6431, 34.8289], "Marakeş": [31.6295, -7.9811], "Petra": [30.3285, 35.4444],
+            "Rio de Janeiro": [-22.9068, -43.1729], "Buenos Aires": [-34.6037, -58.3816],
+            "Kyoto": [35.0116, 135.7681], "Osaka": [34.6937, 135.5023], "Pekin": [39.9042, 116.4074],
+            "Şanghay": [31.2304, 121.4737], "Singapur": [1.3521, 103.8198], "Hong Kong": [22.3193, 114.1694],
+            "Phuket": [7.8804, 98.3923], "Hanoi": [21.0285, 105.8542], "Ho Chi Minh": [10.8231, 106.6297],
+            "Kuala Lumpur": [3.1390, 101.6869], "Kahire": [30.0444, 31.2357], "Beyrut": [33.8938, 35.5018],
+            "Doha": [25.2854, 51.5310], "Abu Dhabi": [24.4539, 54.3773], "Şarm El-Şeyh": [27.9158, 34.3299],
+            "Maskat": [23.5880, 58.3829], "Amman": [31.9454, 35.9284], "Tel Aviv": [32.0853, 34.7818],
+            "Kazablanka": [33.5731, -7.5898], "Bratislava": [48.1486, 17.1077], "Bükreş": [44.4268, 26.1025],
+            "Riga": [56.9496, 24.1052], "Tallinn": [59.4370, 24.7536], "Vilnius": [54.6872, 25.2797],
+            "Zagreb": [45.8150, 15.9819], "Ljubljana": [46.0569, 14.5058], "Zürih": [47.3769, 8.5417],
+            "Brüksel": [50.8503, 4.3517], "Münih": [48.1351, 11.5820], "Cenevre": [46.2044, 6.1432],
+            "Dublin": [53.3498, -6.2603], "Edinburgh": [55.9533, -3.1883], "Brugge": [51.2093, 3.2247],
+            "Strazburg": [48.5734, 7.7521], "Hamburg": [53.5511, 9.9937], "Nice": [43.7102, 7.2620],
+            "Floransa": [43.7696, 11.2558], "Madrid": [40.4168, -3.7038], "Valensiya": [39.4699, -0.3763],
+            "Porto": [41.1579, -8.6291], "Napoli": [40.8518, 14.2681], "Santorini": [36.3932, 25.4615],
+            "Valletta": [35.8989, 14.5146], "Sevilla": [37.3891, -5.9845], "Marsilya": [43.2965, 5.3698],
+            "Toronto": [43.6510, -79.3470], "San Francisco": [37.7749, -122.4194], "Las Vegas": [36.1699, -115.1398],
+            "Chicago": [41.8781, -87.6298], "Vancouver": [49.2827, -123.1207], "Montreal": [45.5017, -73.5673],
+            "Meksiko": [19.4326, -99.1332], "Cancun": [21.1619, -86.8515], "Boston": [42.3601, -71.0589],
+            "Seattle": [47.6062, -122.3321], "Machu Picchu": [-13.1631, -72.5450], "Sao Paulo": [-23.5505, -46.6333],
+            "Santiago": [-33.4489, -70.6693], "Bogota": [4.7110, -74.0721], "Lima": [-12.0464, -77.0428],
+            "Cartagena": [10.3910, -75.4794], "Cusco": [-13.5320, -71.9675], "La Paz": [-16.5000, -68.1500],
+            "Montevideo": [-34.9011, -56.1645], "Medellin": [6.2442, -75.5812], "Prizren": [42.2139, 20.7397],
+            "Split": [43.5081, 16.4402], "Sofya": [42.6977, 23.3219], "Bled": [46.3688, 14.1140]
+        };
+
+        // GÜVENLİ VERİ AKTARIMI (Hata verdirmeyen yöntem)
+        var rawData = '<%- typeof mapData !== "undefined" ? JSON.stringify(mapData) : "[]" %>';
+        var blogs = JSON.parse(rawData);
+
+        blogs.forEach(blog => {
+            let matchedCity = Object.keys(cityCoordinates).find(city => blog.title.includes(city));
+            if (matchedCity) {
+                const coords = cityCoordinates[matchedCity];
+                const marker = L.marker(coords).addTo(map);
+                const popupContent = `
+                    <div style="text-align: center; width: 200px;">
+                        <img src="${blog.image}" style="width: 100%; height: 100px; object-fit: cover; border-radius: 8px; margin-bottom: 5px;">
+                        <h4 style="margin: 5px 0; font-size: 14px; color: #333;">${blog.title}</h4>
+                        <a href="/blog/${blog.slug}" style="display: inline-block; background: #059669; color: white; padding: 5px 10px; border-radius: 4px; text-decoration: none; font-size: 12px; font-weight: bold;">Rotayı İncele</a>
+                    </div>
+                `;
+                marker.bindPopup(popupContent);
+            }
+        });
+    }
+</script>
