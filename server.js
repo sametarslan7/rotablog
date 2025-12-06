@@ -321,6 +321,52 @@ app.get('/sayfa/:page', (req, res) => {
         currentPage: 1
     });
 });
+// 5. SITEMAP (GOOGLE İÇİN OTOMATİK HARİTA)
+app.get('/sitemap.xml', async (req, res) => {
+    try {
+        const domain = 'https://rotablog.com';
+        const blogs = await Blog.find({}, 'slug date'); // Sadece link ve tarih lazım
+
+        let xml = `<?xml version="1.0" encoding="UTF-8"?>
+        <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+            <!-- Anasayfa -->
+            <url>
+                <loc>${domain}/</loc>
+                <changefreq>daily</changefreq>
+                <priority>1.0</priority>
+            </url>
+            <!-- Rehber Sayfaları -->
+            <url><loc>${domain}/rehber/vizesiz-ulkeler</loc></url>
+            <url><loc>${domain}/rehber/kamp-rotalari</loc></url>
+            <url><loc>${domain}/rehber/dunya-mutfagi</loc></url>
+            <url><loc>${domain}/rehber/ucuz-ucak</loc></url>
+            <url><loc>${domain}/rehber/interrail</loc></url>
+            <!-- Sabit Sayfalar -->
+            <url><loc>${domain}/sayfa/hakkimda</loc></url>
+            <url><loc>${domain}/sayfa/iletisim</loc></url>
+        `;
+
+        // Blog Yazıları (Döngü ile ekle)
+        blogs.forEach(blog => {
+            xml += `
+            <url>
+                <loc>${domain}/blog/${blog.slug}</loc>
+                <lastmod>${new Date(blog.date).toISOString()}</lastmod>
+                <changefreq>weekly</changefreq>
+                <priority>0.8</priority>
+            </url>`;
+        });
+
+        xml += `</urlset>`;
+
+        res.header('Content-Type', 'application/xml');
+        res.send(xml);
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).end();
+    }
+});
 
 const PORT = 3000;
 app.listen(PORT, () => {
