@@ -7,6 +7,7 @@ import re
 from openai import OpenAI
 import urllib.parse 
 import pymongo 
+import requests 
 from dotenv import load_dotenv 
 
 # --- AYARLARI YÜKLE ---
@@ -17,6 +18,8 @@ from db_helper import get_available_cities
 
 # --- API AYARLARI ---
 API_KEY = os.getenv("OPENAI_API_KEY")
+UNSPLASH_KEY = os.getenv("UNSPLASH_ACCESS_KEY")
+
 client = OpenAI(api_key=API_KEY)
 
 # --- BÖLGELER ---
@@ -79,20 +82,50 @@ BOLGELER = {
 
 BOLGE_LISTESI = list(BOLGELER.keys())
 
-# HTML temizleme fonksiyonu
 def clean_html_tags(text):
     clean = re.compile('<.*?>')
     return re.sub(clean, '', text)
 
-# --- OTOMATİK SEÇİM FONKSİYONU ---
 def bolge_sec_otomatik():
     print("\n--- 🤖 OTOMATİK MOD AKTİF ---")
-    # Rastgele bir bölge seç
     secilen_bolge = random.choice(BOLGE_LISTESI)
     print(f"✅ Sistem Tarafından Seçilen Bölge: {secilen_bolge}")
     return secilen_bolge
 
+# --- UNSPLASH RESİM ÇEKME ---
+def get_unsplash_image(query):
+    if not UNSPLASH_KEY:
+        print("⚠️ Unsplash Key bulunamadı! Yedek resim kullanılıyor.")
+        return "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80"
+    
+    try:
+        # Aranan kelimeyi yazdırarak kontrol edelim
+        print(f"📸 Unsplash'te aranan görsel: {query}")
+        
+        url = f"https://api.unsplash.com/search/photos?query={query}&per_page=1&orientation=landscape&client_id={UNSPLASH_KEY}"
+        response = requests.get(url)
+        data = response.json()
+        
+        if data['results']:
+            return data['results'][0]['urls']['regular']
+        else:
+            print(f"⚠️ '{query}' için resim bulunamadı, yedek resim kullanılıyor.")
+            return "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80"
+            
+    except Exception as e:
+        print("❌ Unsplash API Hatası:", e)
+        return "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80"
+
 def generate_content(secilen_sehir):
+        # --- GİRİŞ CÜMLESİ SEÇİCİ ---
+    baglanti_cumleleri = [
+        f"Hadi gelin, {secilen_sehir} sokaklarında kaybolalım...",
+        f"Hadi biraz {secilen_sehir} sokaklarında gezintiye çıkalım.",
+        f"Bavulları hazırla, şimdi {secilen_sehir} sokaklarını keşfe çıkıyoruz.",
+        f"Hazırsanız, {secilen_sehir} maceramız başlıyor."
+    ]
+    # Listeden rastgele bir cümle seç
+    secilen_cumle = random.choice(baglanti_cumleleri)
     prompt = f"""
     GÖREV: Sen Türkiye'nin en sevilen seyahat yazarlarından birisin. 
     KONU: {secilen_sehir} Gezi Rehberi.
@@ -100,31 +133,42 @@ def generate_content(secilen_sehir):
     ZORUNLU FORMAT (Buna birebir uy):
     [BAŞLIK]
     |||
-    [İNGİLİZCE KAPAK GÖRSEL PROMPTU (Sadece burası İngilizce olacak)]
-    |||
     [HTML İÇERİK]
 
     İÇERİK AKIŞI:
     1. (BAŞLIK ATMA) Direkt olarak Slogandan sonra şehrin atmosferini anlatan akıcı bir giriş paragrafı yaz.
-    2. {secilen_sehir} Gezilecek En İyi 5 Yer (H3 başlıkları kullan)
+    1.1 Bu giriş paragrafının sonunda {secilen_cumle}  cümlesi olsun.
+    2. {secilen_sehir} Gezilecek En İyi 5 Yer (H3 başlıkları kullan) 
     3. Yerel Lezzetler ve Restoran Önerileri
+    3.1 Yerel Lezzetler ve Restoran Önerileri kısmında asla tire (-) ve yıldız (*) kullanma, yemekleri alt başlık (<h4>) olarak yaz
+    3.2 Yerel Lezzetler ve Restoran Önerileri başlığının rengi yeşil olsun.
     4. Konaklama ve Ulaşım İpuçları
+    4.1 Konaklama ve Ulaşım İpuçları başlığının rengi yeşil olsun.
     5. Yazarın Notu (Kapanış)
+    5.1 Yazarın Notu başlığının rengi yeşil olsun.
 
     KURALLAR:
-    - DİL KURALI: Yazının tamamı, başlıklar, slogan ve maddeler %100 TÜRKÇE olmalıdır.
-    - SLOGAN: İçeriğin en başına, o şehri anlatan havalı bir sloganı <p><strong>"Slogan Buraya"</strong></p> etiketiyle TÜRKÇE olarak ekle.
-    - BAŞLIKSIZ GİRİŞ: Slogandan sonra hemen <p> etiketiyle metne başla. "Giriş" diye başlık atma.
-    - BAŞLIK KURALI: En üstteki [BAŞLIK] kısmına HTML etiketi koyma, sadece düz metin ve TÜRKÇE yaz.
-    - GÖRSEL KURALI: Yazının akışı içinde 3 ADET görsel kodu ekle. [IMG: description in english]
-    - UZUNLUK: İdeal blog uzunluğunda (1000 kelime civarı) olsun.
+    - DİL KURALI: %100 TÜRKÇE yaz.
+    - SLOGAN: İçeriğin en başına, <p><strong>"Slogan Buraya"</strong></p> etiketiyle ekle.
+    - BAŞLIK KURALI: [BAŞLIK] kısmına HTML etiketi koyma.
+    - Gezilecek yerlerin veya yemeklerin isimlerini sakın düz yazma. Mutlaka <h3> etiketi içine al ve büyük puntola yaz.
+    - Konaklama ve ulaşım İpuçları ve YAzarın Notu maddelerini başlıklaştır.
+    
+    - GÖRSEL KURALI (ÇOK ÖNEMLİ): 
+      Yazının akışı içinde, o an anlattığın spesifik yerin veya yemeğin fotoğrafının gelmesi için 2 ADET görsel kodu ekle.
+      Koda "şehir" veya "manzara" gibi genel şeyler yazma. TAM MEKAN ADINI İngilizce yaz.
+      
+      Doğru Örnek: [IMG: Hagia Sophia Istanbul], [IMG: Pizza Margherita Naples]
+      Yanlış Örnek: [IMG: Istanbul], [IMG: Food]
+    
+    - UZUNLUK: 1000 kelime civarı.
     """
 
     try:
         response = client.chat.completions.create(
             model="gpt-4o-mini", 
             messages=[
-                {"role": "system", "content": "Sen sadece Türkçe içerik üreten, HTML formatında uzman bir seyahat editörüsün."},
+                {"role": "system", "content": "Sen sadece Türkçe içerik üreten, HTML formatında uzman bir seyahat editörüsün. Görsel etiketlerini çok spesifik (mekan adı vererek) yazarsın."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
@@ -137,12 +181,14 @@ def generate_content(secilen_sehir):
 
 def process_inline_images(content):
     matches = re.findall(r'\[IMG: (.*?)\]', content)
-    for prompt in matches:
-        encoded_prompt = urllib.parse.quote(prompt)
-        seed = random.randint(0, 99999)
-        image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=800&height=500&nologo=true&seed={seed}&model=flux"
-        html_img = f'<figure class="inline-image"><img src="{image_url}" alt="{prompt}"><figcaption>{prompt}</figcaption></figure>'
-        content = content.replace(f'[IMG: {prompt}]', html_img)
+    
+    # İLK 2 GÖRSELİ İŞLE
+    for prompt in matches[:2]: 
+        image_url = get_unsplash_image(prompt)
+        # Alt etiketine aranan kelimeyi yazalım ki SEO dostu olsun
+        html_img = f'<figure class="inline-image"><img src="{image_url}" alt="{prompt}"><figcaption>Fotoğraf: {prompt} (Unsplash)</figcaption></figure>'
+        content = content.replace(f'[IMG: {prompt}]', html_img, 1)
+        
     return content
 
 def blog_yazdir(bolge):
@@ -169,24 +215,31 @@ def blog_yazdir(bolge):
         full_text = full_text.replace("```html", "").replace("```", "")
         parts = full_text.split("|||")
 
-        if len(parts) < 3:
+        if len(parts) < 2:
             print("⚠️ Format hatası, tekrar deneniyor...")
             continue
         
-        content = parts[2].strip()
+        raw_title = parts[0].strip().replace('"', '').replace("Başlık:", "").replace("#", "").replace("[", "").replace("]", "").strip()
+        title = clean_html_tags(raw_title) 
+        
+        content = parts[1].strip()
         
         if len(content) < 2500:
             print(f"❌ Yazı kısa oldu ({len(content)}). Tekrar deneniyor...")
             continue
         
         print(f"✅ Yazı başarıyla üretildi! Uzunluk: {len(content)} karakter.")
-        print("🎨 Görseller işleniyor...")
+        print("🎨 Görseller işleniyor (Unsplash - Akıllı Seçim)...")
         
-        raw_title = parts[0].strip().replace('"', '').replace("Başlık:", "").replace("#", "").replace("[", "").replace("]", "").strip()
-        title = clean_html_tags(raw_title) 
-        image_prompt = parts[1].strip()
+        # Kapak resmi için şehir adı + travel
+        sehir_sade = secilen_sehir.split('(')[0].strip()
+        image_keyword = sehir_sade + " city travel" 
 
+        # Görselleri İşle
         content = process_inline_images(content)
+
+        # Temizlik
+        content = re.sub(r'\[IMG: .*?\]', '', content) 
         content = re.sub(r'^[\s|]+', '', content)
         content = re.sub(r'\[.*?\]', '', content) 
         content = content.replace("Giriş:", "").replace("Özet:", "").replace("Slogan:", "")
@@ -194,9 +247,8 @@ def blog_yazdir(bolge):
         content = re.sub(r'<strong>.*?Giriş.*?</strong>', '', content, flags=re.IGNORECASE)
         content = content.strip()
 
-        encoded_prompt = urllib.parse.quote(image_prompt)
-        seed = random.randint(0,99999)
-        image_url = f"https://image.pollinations.ai/prompt/{encoded_prompt}?width=800&height=600&nologo=true&seed={seed}&model=flux"
+        # Kapak Görseli
+        image_url = get_unsplash_image(image_keyword)
 
         tr_map = str.maketrans("çğıöşüÇĞIÖŞÜİ", "cgiosuCGIOSUI")
         clean_slug = title.translate(tr_map).lower()
@@ -205,7 +257,6 @@ def blog_yazdir(bolge):
 
         plain_summary = clean_html_tags(content).replace('"', '')[:180] + "..."
 
-        sehir_sade = secilen_sehir.split('(')[0].strip()
         tags = [bolge.lower(), sehir_sade.lower(), "gezi", "blog", "seyahat"]
         tags = [t.replace(" ", "-").replace("ç","c").replace("ı","i").replace("ü","u") for t in tags]
 
@@ -242,7 +293,6 @@ def save_to_db(blog):
         print("❌ Veritabanı Kayıt Hatası:", e)
 
 if __name__ == "__main__":
-    # ARTIK SORU SORMA YOK, DİREKT OTOMATİK SEÇİYORUZ
     secilen_bolge = bolge_sec_otomatik()
     blog = blog_yazdir(secilen_bolge)
     save_to_db(blog)
