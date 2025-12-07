@@ -100,5 +100,55 @@
         </section>
     <% } %>
 </main>
+<!-- GİZLİLİK POLİTİKASI (ADSENSE UYUMLU) -->
+    <!-- GİZLİLİK POLİTİKASI (GÜNCEL) -->
+    <% if (page === 'gizlilik-politikasi') { %>
+        <section class="static-page-wrapper privacy-wrapper" style="max-width: 800px; margin: 60px auto; padding: 0 20px; color: #374151; line-height: 1.8;">
+            
+            <h1 style="font-size: 32px; color: #1f2937; margin-bottom: 30px; border-bottom: 2px solid #059669; display: inline-block; padding-bottom: 10px;">Gizlilik Politikası</h1>
+            
+            <p><strong>Son Güncelleme:</strong> <%= new Date().toLocaleDateString('tr-TR') %></p>
+            
+            <!-- Senin İstediğin Giriş Metni -->
+            <p>Web sitemiz, kullanıcılarımızın gizliliğini koruma taahhüdü ile faaliyet göstermektedir. Bu Gizlilik Politikası, web sitemizi ziyaret eden kullanıcıların hangi bilgilerini topladığımızı, bu bilgileri nasıl kullandığımızı ve koruduğumuzu açıklar.</p>
+            
+            <p>Kişisel bilgilerinizi yalnızca yasal gerekliliklere uygun şekilde işleriz. Kullanıcı verilerinin güvenliği bizim için önceliklidir ve bu amaçla en güncel güvenlik önlemlerini uygularız. Bu politikayı zaman zaman güncelleyebiliriz ve bu sayfada herhangi bir değişiklik hakkında bilgi vereceğiz. Web sitemizi kullanarak bu Gizlilik Politikası’nı kabul etmiş sayılırsınız.</p>
 
+            <hr style="border: 0; border-top: 1px solid #e5e7eb; margin: 30px 0;">
+
+            <!-- Teknik Detaylar (AdSense Onayı İçin Gerekli) -->
+            <h3 style="color: #1f2937; margin-top: 30px; font-size: 20px;">1. Kayıt Dosyaları ve Çerezler</h3>
+            <p>Diğer birçok web sitesi gibi, Rotablog da standart kayıt dosyalarını ve çerezleri (cookies) kullanır. Bu dosyalar; ziyaretçilerin IP adreslerini, tarayıcı türünü, siteye giriş zamanını ve ziyaret edilen sayfaları analiz etmek, siteyi yönetmek ve kullanıcı deneyimini iyileştirmek için kullanılır.</p>
+            
+            <h3 style="color: #1f2937; margin-top: 30px; font-size: 20px;">2. Google ve Reklamlar</h3>
+            <p>Google, sitemizde bir üçüncü taraf satıcıdır. Site ziyaretçilerimize reklam sunmak için DART çerezlerini kullanır. Ziyaretçiler, Google reklam ve içerik ağı gizlilik politikasını ziyaret ederek DART çerezlerinin kullanımını devre dışı bırakabilirler.</p>
+
+            <h3 style="color: #1f2937; margin-top: 30px; font-size: 20px;">3. İletişim</h3>
+            <p>Gizlilik politikamızla ilgili her türlü sorunuz için <a href="/sayfa/iletisim" style="color: #059669; font-weight: bold;">İletişim</a> sayfasından bize ulaşabilirsiniz.</p>
+
+        </section>
+    <% } %>
+    <!-- KULLANIM ŞARTLARI -->
+    <% if (page === 'kullanim-sartlari') { %>
+        <section class="static-page-wrapper privacy-wrapper" style="max-width: 800px; margin: 60px auto; padding: 0 20px; color: #374151; line-height: 1.8;">
+            
+            <h1 style="font-size: 32px; color: #1f2937; margin-bottom: 30px; border-bottom: 2px solid #059669; display: inline-block; padding-bottom: 10px;">Kullanım Şartları</h1>
+            
+            <p><strong>Son Güncelleme:</strong> <%= new Date().toLocaleDateString('tr-TR') %></p>
+            
+            <p>Bu web sitesine erişiminiz ve kullanımınız, aşağıda belirtilen hüküm ve koşullara tabidir. Web sitemizi kullanarak, bu kullanım şartlarını kabul etmiş sayılırsınız.</p>
+
+            <h3 style="color: #1f2937; margin-top: 30px; font-size: 20px;">1. Bilgilendirme Amaçlı İçerik</h3>
+            <p>Web sitemizdeki içerik, yalnızca bilgilendirme amaçlıdır ve herhangi bir kesin taahhüt içermemektedir. Seyahat rotaları, fiyatlar ve mekan bilgileri zamanla değişebilir.</p>
+
+            <h3 style="color: #1f2937; margin-top: 30px; font-size: 20px;">2. Kullanım Kısıtlamaları</h3>
+            <p>Kullanıcıların web sitemizdeki tüm içerik ve hizmetleri kötüye kullanmaktan kaçınmaları gerekmektedir. Sitenin güvenliğini tehdit edecek veya diğer kullanıcıları rahatsız edecek davranışlar yasaktır.</p>
+
+            <h3 style="color: #1f2937; margin-top: 30px; font-size: 20px;">3. Yasal Haklar</h3>
+            <p>Herhangi bir ihlal durumunda, gerekli yasal işlemleri başlatma hakkımız saklıdır. Bu şartlar üzerinde değişiklik yapma hakkımızı saklı tutarız.</p>
+
+            <p style="margin-top: 30px;">Web sitemizi ziyaret ederek bu kullanım şartlarını kabul etmiş sayılırsınız.</p>
+
+        </section>
+    <% } %>
 <%- include('partials/footer') %>

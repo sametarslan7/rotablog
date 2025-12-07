@@ -310,11 +310,26 @@ app.get('/rehber/:page', (req, res) => {
     }
 });
 
-// 7. SABİT SAYFALAR
+// SABİT SAYFALAR (Hakkımda, İletişim, Gizlilik, Kullanım Şartları)
 app.get('/sayfa/:page', (req, res) => {
     const pageName = req.params.page; 
+    let title = "";
+
+    // Başlıkları Sayfaya Göre Ayarla
+    if (pageName === 'hakkimda') {
+        title = "Hakkımızda | RotaBlog";
+    } else if (pageName === 'iletisim') {
+        title = "İletişim | RotaBlog";
+    } else if (pageName === 'gizlilik-politikasi') {
+        title = "Gizlilik Politikası | RotaBlog";
+    } else if (pageName === 'kullanim-sartlari') {
+        title = "Kullanım Şartları | RotaBlog";
+    } else {
+        title = "Sayfa | RotaBlog";
+    }
+
     res.render('page', { 
-        title: pageName.toUpperCase() + " | RotaBlog", 
+        title: title, 
         page: pageName,
         searchQuery: '',
         activeCategory: '',
