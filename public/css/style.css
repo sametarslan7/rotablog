@@ -884,18 +884,20 @@ ul { list-style: none; padding: 0; margin: 0; }
     font-size: 14px;
     line-height: 1.6;
 }
-/* --- MOBİL İÇİN HEADER DÜZENLEMESİ --- */
+/* --- MOBİL İÇİN HEADER DÜZENLEMESİ (DÜZELTİLMİŞ TAM HALİ) --- */
 @media (max-width: 768px) {
     /* 1. Header'ı dikey yap (Logo üstte, arama altta) */
     .main-header {
         flex-direction: column;
         gap: 15px;
-        padding: 15px;
+        padding: 15px 5%;
+        height: auto; /* Yüksekliği otomatiğe al */
     }
 
     /* 2. Logo ortalansın */
     .logo {
         margin-bottom: 5px;
+        text-align: center;
     }
 
     /* 3. Arama Kutusu tüm genişliği kaplasın */
@@ -911,10 +913,23 @@ ul { list-style: none; padding: 0; margin: 0; }
         width: 100%;
         max-width: 400px; /* Tabletlerde çok uzamasın */
         align-items: center;
-        position: relative; /* Buton hizalaması için */
+        position: relative;
     }
 
-    /* 5. Input alanı esnek olsun (Sabit piksel yerine) */
+    /* 5. Input alanı esnek olsun */
     .search-box input {
         width: 100% !important; /* Masaüstü ayarını ez */
         flex: 1; /* Kalan boşluğu doldur */
+        padding-right: 50px; /* Yazı butonun altına girmesin */
+        box-sizing: border-box;
+    }
+
+    /* 6. Buton Ayarı (Aşağı düşmemesi için kritik kısım) */
+    .search-box button {
+        width: auto;
+        position: relative;
+        margin-left: -45px; /* Inputun içine girmesi için */
+        flex-shrink: 0; /* Daralmayı engelle */
+        z-index: 10; /* Üstte dursun */
+    }
+}
