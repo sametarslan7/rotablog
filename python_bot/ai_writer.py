@@ -92,40 +92,43 @@ def bolge_sec_otomatik():
     print(f"✅ Sistem Tarafından Seçilen Bölge: {secilen_bolge}")
     return secilen_bolge
 
-# --- UNSPLASH RESİM ÇEKME ---
+# --- UNSPLASH RESİM ÇEKME (GÜNCELLENDİ) ---
 def get_unsplash_image(query):
     if not UNSPLASH_KEY:
-        print("⚠️ Unsplash Key bulunamadı! Yedek resim kullanılıyor.")
-        return "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80"
+        print("⚠️ Unsplash Key bulunamadı!")
+        return None # Yedek resim yerine None dönüyoruz
     
     try:
-        # Aranan kelimeyi yazdırarak kontrol edelim
         print(f"📸 Unsplash'te aranan görsel: {query}")
         
+        # orientation=landscape: Yatay resimler blog için daha iyidir
         url = f"https://api.unsplash.com/search/photos?query={query}&per_page=1&orientation=landscape&client_id={UNSPLASH_KEY}"
-        response = requests.get(url)
-        data = response.json()
+        response = requests.get(url, timeout=10) # 10 saniye zaman aşımı
         
-        if data['results']:
-            return data['results'][0]['urls']['regular']
+        if response.status_code == 200:
+            data = response.json()
+            if data['results']:
+                return data['results'][0]['urls']['regular']
+            else:
+                print(f"⚠️ '{query}' için resim bulunamadı.")
+                return None
         else:
-            print(f"⚠️ '{query}' için resim bulunamadı, yedek resim kullanılıyor.")
-            return "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80"
+            print(f"❌ Unsplash API Hatası: {response.status_code}")
+            return None
             
     except Exception as e:
-        print("❌ Unsplash API Hatası:", e)
-        return "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=1200&q=80"
+        print("❌ Bağlantı Hatası:", e)
+        return None
 
 def generate_content(secilen_sehir):
-        # --- GİRİŞ CÜMLESİ SEÇİCİ ---
     baglanti_cumleleri = [
         f"Hadi gelin, {secilen_sehir} sokaklarında kaybolalım...",
         f"Hadi biraz {secilen_sehir} sokaklarında gezintiye çıkalım.",
         f"Bavulları hazırla, şimdi {secilen_sehir} sokaklarını keşfe çıkıyoruz.",
         f"Hazırsanız, {secilen_sehir} maceramız başlıyor."
     ]
-    # Listeden rastgele bir cümle seç
     secilen_cumle = random.choice(baglanti_cumleleri)
+    
     prompt = f"""
     GÖREV: Sen Türkiye'nin en sevilen seyahat yazarlarından birisin. 
     KONU: {secilen_sehir} Gezi Rehberi.
@@ -137,7 +140,7 @@ def generate_content(secilen_sehir):
 
     İÇERİK AKIŞI:
     1. (BAŞLIK ATMA) Direkt olarak Slogandan sonra şehrin atmosferini anlatan akıcı bir giriş paragrafı yaz.
-    1.1 Bu giriş paragrafının sonunda {secilen_cumle}  cümlesi olsun.
+    1.1 Bu giriş paragrafının sonunda "{secilen_cumle}" cümlesi olsun.
     2. {secilen_sehir} Gezilecek En İyi 5 Yer (H3 başlıkları kullan) 
     3. Yerel Lezzetler ve Restoran Önerileri
     3.1 Yerel Lezzetler ve Restoran Önerileri kısmında asla tire (-) ve yıldız (*) kullanma, yemekleri alt başlık (<h4>) olarak yaz
@@ -151,15 +154,11 @@ def generate_content(secilen_sehir):
     - DİL KURALI: %100 TÜRKÇE yaz.
     - SLOGAN: İçeriğin en başına, <p><strong>"Slogan Buraya"</strong></p> etiketiyle ekle.
     - BAŞLIK KURALI: [BAŞLIK] kısmına HTML etiketi koyma.
-    - Gezilecek yerlerin veya yemeklerin isimlerini sakın düz yazma. Mutlaka <h3> etiketi içine al ve büyük puntola yaz.
-    - Konaklama ve ulaşım İpuçları ve YAzarın Notu maddelerini başlıklaştır.
+    - Gezilecek yerlerin isimlerini <h3> etiketi içine al.
     
-    - GÖRSEL KURALI (ÇOK ÖNEMLİ): 
+    - GÖRSEL KURALI: 
       Yazının akışı içinde, o an anlattığın spesifik yerin veya yemeğin fotoğrafının gelmesi için 2 ADET görsel kodu ekle.
-      Koda "şehir" veya "manzara" gibi genel şeyler yazma. TAM MEKAN ADINI İngilizce yaz.
-      
-      Doğru Örnek: [IMG: Hagia Sophia Istanbul], [IMG: Pizza Margherita Naples]
-      Yanlış Örnek: [IMG: Istanbul], [IMG: Food]
+      Format: [IMG: Specific Place Name in English]
     
     - UZUNLUK: 1000 kelime civarı.
     """
@@ -168,7 +167,7 @@ def generate_content(secilen_sehir):
         response = client.chat.completions.create(
             model="gpt-4o-mini", 
             messages=[
-                {"role": "system", "content": "Sen sadece Türkçe içerik üreten, HTML formatında uzman bir seyahat editörüsün. Görsel etiketlerini çok spesifik (mekan adı vererek) yazarsın."},
+                {"role": "system", "content": "Sen sadece Türkçe içerik üreten, HTML formatında uzman bir seyahat editörüsün."},
                 {"role": "user", "content": prompt}
             ],
             temperature=0.7,
@@ -182,10 +181,15 @@ def generate_content(secilen_sehir):
 def process_inline_images(content):
     matches = re.findall(r'\[IMG: (.*?)\]', content)
     
-    # İLK 2 GÖRSELİ İŞLE
     for prompt in matches[:2]: 
         image_url = get_unsplash_image(prompt)
-        # Alt etiketine aranan kelimeyi yazalım ki SEO dostu olsun
+        
+        # --- YENİ KONTROL: Eğer resim bulunamazsa işlemi durdur ve None dön ---
+        if not image_url:
+            print(f"❌ Yazı içi görsel bulunamadı: {prompt}")
+            return None 
+        # --------------------------------------------------------------------
+
         html_img = f'<figure class="inline-image"><img src="{image_url}" alt="{prompt}"><figcaption>Fotoğraf: {prompt} (Unsplash)</figcaption></figure>'
         content = content.replace(f'[IMG: {prompt}]', html_img, 1)
         
@@ -229,14 +233,31 @@ def blog_yazdir(bolge):
             continue
         
         print(f"✅ Yazı başarıyla üretildi! Uzunluk: {len(content)} karakter.")
-        print("🎨 Görseller işleniyor (Unsplash - Akıllı Seçim)...")
+        print("🎨 Görseller işleniyor...")
         
-        # Kapak resmi için şehir adı + travel
+        # --- YENİ KONTROL MEKANİZMASI ---
+        
+        # 1. Yazı içi görselleri kontrol et
+        processed_content = process_inline_images(content)
+        if processed_content is None:
+            print(f"🔄 Yazı içi görsel bulunamadığı için BU ROTA ({secilen_sehir}) İPTAL EDİLİYOR...")
+            print("🚀 Yeni bir şehir seçiliyor...")
+            return blog_yazdir(bolge) # Recursive: Başa dön ve yeni şehir seç
+        
+        content = processed_content # Onaylandıysa içeriği güncelle
+
+        # 2. Kapak görselini kontrol et
         sehir_sade = secilen_sehir.split('(')[0].strip()
         image_keyword = sehir_sade + " city travel" 
+        image_url = get_unsplash_image(image_keyword)
 
-        # Görselleri İşle
-        content = process_inline_images(content)
+        if not image_url:
+            print(f"❌ Kapak görseli bulunamadı: {image_keyword}")
+            print(f"🔄 Bu rota ({secilen_sehir}) İPTAL EDİLİYOR ve yeni bir şehir seçiliyor...")
+            return blog_yazdir(bolge) # Recursive: Başa dön ve yeni şehir seç
+        
+        print("✅ Tüm görseller başarıyla bulundu.")
+        # --------------------------------
 
         # Temizlik
         content = re.sub(r'\[IMG: .*?\]', '', content) 
@@ -246,9 +267,6 @@ def blog_yazdir(bolge):
         content = re.sub(r'<h[23]>.*?Giriş.*?</h[23]>', '', content, flags=re.IGNORECASE)
         content = re.sub(r'<strong>.*?Giriş.*?</strong>', '', content, flags=re.IGNORECASE)
         content = content.strip()
-
-        # Kapak Görseli
-        image_url = get_unsplash_image(image_keyword)
 
         tr_map = str.maketrans("çğıöşüÇĞIÖŞÜİ", "cgiosuCGIOSUI")
         clean_slug = title.translate(tr_map).lower()
