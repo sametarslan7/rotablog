@@ -10,8 +10,10 @@ import pymongo
 import requests 
 from dotenv import load_dotenv 
 
+
 # --- AYARLARI YÜKLE ---
 load_dotenv() 
+
 
 # --- YARDIMCI DOSYA ---
 from db_helper import get_available_cities
@@ -21,7 +23,6 @@ API_KEY = os.getenv("OPENAI_API_KEY")
 UNSPLASH_KEY = os.getenv("UNSPLASH_ACCESS_KEY")
 
 client = OpenAI(api_key=API_KEY)
-
 # --- BÖLGELER ---
 BOLGELER = {
     "Balkan Rüyası": [
