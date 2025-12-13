@@ -382,7 +382,11 @@ app.get('/sitemap.xml', async (req, res) => {
         res.status(500).end();
     }
 });
-
+// 6. ROBOTS.TXT (Google Botları İçin İzin Belgesi)
+app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.send(`User-agent: *\nAllow: /\nSitemap: https://rotablog.com/sitemap.xml`);
+});
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`✈️  Seyahat Blogu Yayında: http://localhost:${PORT}`);
