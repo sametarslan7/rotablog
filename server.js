@@ -152,7 +152,96 @@ const REHBERLER = {
             <h3>4. Yanına Alman Gerekenler 🎒</h3>
             <p>Asla tekerlekli bavul alma! Arnavut kaldırımlı Avrupa sokaklarında pişman olursun. Mutlaka <strong>sırt çantası</strong> kullan. Yanına powerbank, çoklu priz ve rahat bir yürüyüş ayakkabısı almayı unutma.</p>
         `
+    },
+    'resmi-tatiller': {
+        title: "2026 Resmi Tatil Takvimi: İzinleri Birleştir, Tatili Uzat! 📅",
+        image: "https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=1200&q=80",
+        content: `
+            <p class="guide-intro">2026 yılı tatil planı için hazır mısınız? Eksiksiz takvim ve izin birleştirme tüyoları burada!</p>
+            
+            <hr>
+
+            <div class="holiday-card">
+                <h3 style="color:#d97706;">1. Yılbaşı (1 Ocak) 🎄</h3>
+                <p><strong>Gün:</strong> Perşembe<br>
+                <strong>Taktik:</strong> Cuma günü <strong>1 gün izin</strong> alırsan, Perşembe'den Pazar'a <strong>4 gün tatil</strong> yapabilirsin.</p>
+                <p><strong>Öneri:</strong> ❄️ <em>Uludağ (Kayak)</em> veya 🧖‍♀️ <em>Afyon (Termal).</em></p>
+            </div>
+
+            <hr>
+
+            <div class="holiday-card">
+                <h3 style="color:#059669;">2. Ramazan Bayramı (Mart Sonu) 🍬</h3>
+                <p><strong>Süre:</strong> 3.5 Gün<br>
+                <strong>Taktik:</strong> Hafta içine denk geliyor. Öncesini veya sonrasını bağlayarak <strong>9 güne</strong> tamamlayabilirsin.</p>
+                <p><strong>Öneri:</strong> 🌸 <em>Kapadokya (Bahar).</em></p>
+            </div>
+
+            <hr>
+
+            <div class="holiday-card">
+                <h3 style="color:#dc2626;">3. 23 Nisan Ulusal Egemenlik Bayramı </h3>
+                <p><strong>Gün:</strong> Perşembe<br>
+                <strong>Taktik:</strong> Cuma'yı bağla, <strong>4 gün</strong> tatil yap.</p>
+                <p><strong>Öneri:</strong> 🌊 <em>Kaş veya Fethiye.</em></p>
+            </div>
+
+            <hr>
+
+            <div class="holiday-card">
+                <h3 style="color:#e11d48;">4. 1 Mayıs Emek ve Dayanışma Günü 🛠️</h3>
+                <p><strong>Gün:</strong> Cuma<br>
+                <strong>Taktik:</strong> İzin almana gerek yok! Hafta sonuyla birleşip otomatikman <strong>3 gün blok tatil</strong> oluyor.</p>
+                <p><strong>Öneri:</strong> 🌲 <em>Polonezköy veya Şile (Şehirden kaçış).</em></p>
+            </div>
+
+            <hr>
+
+            <div class="holiday-card">
+                <h3 style="color:#2563eb;">5. 19 Mayıs Gençlik ve Spor Bayramı </h3>
+                <p><strong>Gün:</strong> Salı<br>
+                <strong>Taktik:</strong> Pazartesi <strong>1 gün izin</strong> al, hafta sonuyla birleştirip <strong>4 gün</strong> yap.</p>
+                <p><strong>Öneri:</strong> ⛺ <em>İğneada (Kamp).</em></p>
+            </div>
+
+            <hr>
+
+            <div class="holiday-card">
+                <h3 style="color:#7c3aed;">6. Kurban Bayramı (Haziran) 🐑</h3>
+                <p><strong>Süre:</strong> 4.5 Gün<br>
+                <strong>Taktik:</strong> Yazın göbeği! Arife günü yarım gün izinle haftayı kapat, <strong>9 gün</strong> Ege turuna çık.</p>
+                <p><strong>Öneri:</strong> 🏖️ <em>Bodrum, Datça (Mavi Tur).</em></p>
+            </div>
+
+            <hr>
+
+            <div class="holiday-card">
+                <h3 style="color:#b91c1c;">7. 15 Temmuz Demokrasi ve Milli Birlik Günü </h3>
+                <p><strong>Gün:</strong> Çarşamba<br>
+                <strong>Taktik:</strong> Hafta ortası mola. Perşembe-Cuma'yı bağlayarak <strong>5 gün</strong> kaçamak yapabilirsin.</p>
+                <p><strong>Öneri:</strong> 🏞️ <em>Ayder Yaylası (Serinlik).</em></p>
+            </div>
+
+            <hr>
+
+            <div class="holiday-card">
+                <h3 style="color:#dc2626;">8. 30 Ağustos Zafer Bayramı </h3>
+                <p><strong>Gün:</strong> Pazar<br>
+                <strong>Durum:</strong> Hafta sonuna denk geliyor, ekstra izin fırsatı yok ama kutlamalar için harika.</p>
+                <p><strong>Öneri:</strong> 🏛️ <em>Ankara (Anıtkabir)</em> veya 🏖️ <em>Günübirlik Deniz.</em></p>
+            </div>
+
+            <hr>
+
+            <div class="holiday-card">
+                <h3 style="color:#db2777;">9. 29 Ekim Cumhuriyet Bayramı </h3>
+                <p><strong>Gün:</strong> Perşembe<br>
+                <strong>Taktik:</strong> Cuma <strong>1 gün izin</strong> al, <strong>4 gün</strong> sonbahar tatili yap.</p>
+                <p><strong>Öneri:</strong> 🍂 <em>Yedigöller (Sonbahar).</em></p>
+            </div>
+        `
     }
+    
 };
 
 // --- ROTALAR ---

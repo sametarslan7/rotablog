@@ -933,3 +933,113 @@ ul { list-style: none; padding: 0; margin: 0; }
         z-index: 10; /* Üstte dursun */
     }
 }
+/* --- RESİMSİZ MODERN BANNER --- */
+.info-banner-wrapper {
+    margin: 30px 0 50px 0;
+    width: 100%;
+}
+
+.info-banner-link {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #059669, #0ea5e9); /* Yeşilden Maviye Geçiş */
+    color: white;
+    text-decoration: none;
+    padding: 25px 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(5, 150, 105, 0.2);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Hover Efekti: Yukarı kalkar ve gölge artar */
+.info-banner-link:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(5, 150, 105, 0.3);
+}
+
+/* Arkaplan Süslemesi (Hafif desen) */
+.info-banner-link::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0; bottom: 0; left: 0;
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0IiBoZWlnaHQ9IjQiPgo8cmVjdCB3aWR0PSI0IiBoZWlnaHQ9IjQiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPgo8L3N2Zz4=');
+    pointer-events: none;
+}
+
+.ib-icon {
+    font-size: 40px;
+    margin-right: 25px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 70px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.ib-content {
+    flex: 1; /* Ortadaki boşluğu doldur */
+}
+
+.ib-tag {
+    background: #f59e0b;
+    color: #000;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 10px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    display: inline-block;
+    margin-bottom: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.info-banner-link h3 {
+    margin: 0 0 5px 0;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.info-banner-link p {
+    margin: 0;
+    font-size: 15px;
+    opacity: 0.9;
+    font-weight: 500;
+}
+
+.ib-arrow {
+    font-size: 30px;
+    margin-left: 20px;
+    background: rgba(255, 255, 255, 0.2);
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    transition: transform 0.3s, background 0.3s;
+}
+
+/* Hover'da Ok İşareti Sağa Kaysın */
+.info-banner-link:hover .ib-arrow {
+    transform: translateX(5px);
+    background: white;
+    color: #059669;
+}
+
+/* MOBİL UYUM */
+@media (max-width: 768px) {
+    .info-banner-link {
+        flex-direction: column;
+        text-align: center;
+        padding: 20px;
+    }
+    .ib-icon { margin-right: 0; margin-bottom: 15px; }
+    .ib-arrow { display: none; /* Mobilde oku gizle, yer kaplamasın */ }
+    .info-banner-link h3 { font-size: 20px; }
+}
