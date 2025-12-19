@@ -476,6 +476,26 @@ app.get('/robots.txt', (req, res) => {
     res.type('text/plain');
     res.send(`User-agent: *\nAllow: /\nSitemap: https://rotablog.com/sitemap.xml`);
 });
+// --- 404 YÖNLENDİRMESİ (DÜZELTİLDİ: HATA KORUMALI) ---
+app.use((req, res) => {
+    // 1. GÜVENLİK KONTROLÜ: Çerezler okunabiliyor mu?
+    // Eğer req.cookies tanımsızsa (undefined) hata vermesin, varsayılan 'tr' yapsın.
+    const lang = (req.cookies && req.cookies.lang) ? req.cookies.lang : 'tr';
+    
+    // 2. SÖZLÜK KONTROLÜ: Dil dosyası var mı?
+    // TRANSLATIONS değişkeni yukarıda tanımlı değilse bile site çökmesin.
+    const trans = (typeof TRANSLATIONS !== 'undefined') ? (TRANSLATIONS[lang] || TRANSLATIONS['tr']) : {};
+
+    res.status(404).render('404', {
+        title: "404 - Rota Bulunamadı 🧭 | Rotablog",
+        searchQuery: '',
+        activeCategory: '',
+        trans: trans, // Çeviri nesnesini gönder
+        lang: lang    // Dili gönder
+    });
+});
+
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`✈️  Seyahat Blogu Yayında: http://localhost:${PORT}`);
